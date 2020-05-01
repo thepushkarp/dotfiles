@@ -108,34 +108,65 @@ fi
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-# Example aliases
+
+# Aliases
+
+# ZSH and P10K
 alias zshconfig="code ~/.zshrc"
 alias ohmyzsh="code ~/.oh-my-zsh"
-alias matlabt="matlab -nodesktop -nosplash"
+alias updp10k="git -C $ZSH_CUSTOM/themes/powerlevel10k pull"
+alias loadzsh="source ~/.zshrc"
+
+# System Commands
 alias bye="exit"
+alias :q="exit"
 alias cls="clear"
+alias cpv="rsync -avhW --no-compress --progress"
+alias greph="history | grep"
+alias grepv="grep -HIrn"
+alias grepc="grep -c"
+alias diff="diff -u --color=always"
+
+# Ubuntu Commands
 alias upd="sudo apt update"
 alias upg="sudo apt upgrade"
 alias updg="sudo apt update && sudo apt upgrade"
-alias upgradable="sudo apt list --upgradable"
+alias install="sudo apt install"
+alias listupg="sudo apt list --upgradable"
 alias autoremove="sudo apt autoremove"
 alias autoclean="sudo apt autoclean"
+
+# Get WiFi keys
 alias wifikey="sudo grep -r '^psk=' /etc/NetworkManager/system-connections/"
+
+# Python
 alias pyup="python setup.py sdist bdist_wheel && twine upload dist/*"
+alias pir="pip install -r requirements.txt"
+alias pipi="pip install"
+
+# MATLAB
+alias matlabt="matlab -nodesktop -nosplash"
 alias matlab-drive="~/bin/MATLABConnector toggle"
 
+# Functions
+
+# MATLAB
 matlab-run() {
     matlab -nodesktop -nosplash -r "$1"
 }
 
+# Change Directory and open in VSCode
+ccd() {
+    cd "$1" && code .
+}
+
+# C and C++
 cpp-run() {
     echo "Compiling file..."
     g++ -o "$1" "$1.cpp"
     echo "Compiled!"
     ./"$1"
 }
-
 c-run() {
     echo "Compiling file..."
     gcc -o "$1" "$1.c"
@@ -143,10 +174,12 @@ c-run() {
     ./"$1"
 }
 
+# Convert gif to webm format
 gif2webm() {
     ffmpeg -i $1.gif -c vp9 -b:v 0 -crf 41 $1.webm
 }
 
+# Short GitHub url
 gurl() {
     curl -i https://git.io -F "url=$1" \
     -F "code=$2"
