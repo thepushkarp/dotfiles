@@ -1,0 +1,21 @@
+[core]
+	autocrlf = input
+	editor = nvim
+	excludesfile = ~/.gitignore_global
+[color]
+	ui = auto
+[commit]
+	template = ~/.gitmessage
+[alias]
+	lg = log --graph --branches --oneline --decorate --pretty=format:'%C(yellow)%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+	co = checkout
+	st = status
+	ci = commit
+	br = branch
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	uncommit = reset HEAD~
+[credential]
+	helper = cache --timeout=21600
+[merge]
+	conflictstyle = diff3

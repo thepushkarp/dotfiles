@@ -1,0 +1,37 @@
+
+
+# 50-character subject line
+#
+# 72-character wrapped longer description. This should answer:
+#
+# * Why was this change necessary?
+# * How does it address the problem?
+# * Are there any side effects?
+#
+# Include tag(s) explaining the nature of commit
+#
+# Include a link to the ticket, if any.
+#
+# Add co-authors if you worked on this code with others:
+#
+# Co-authored-by: Full Name <email@example.com>
+# Co-authored-by: Full Name <email@example.com>
+#
+# --- COMMIT END ---
+#
+# Tag can be
+#    feat     (new feature)
+#    fix      (bug fix)
+#    refactor (refactoring code)
+#    style    (formatting, missing semi colons, etc; no code change)
+#    doc      (changes to documentation)
+#    test     (adding or refactoring tests; no production code change)
+#    version  (version bump/new release; no production code change)
+#    dbg      (Changes in debugging code/frameworks; no production code change)
+#    license  (Edits regarding licensing; no production code change)
+#    hack     (Temporary fix to make things move forward; please avoid it)
+#    WIP      (Work In Progress; for intermediate commits to keep patches reasonably sized)
+#    defaults (changes default options)
+#
+# ---
+#

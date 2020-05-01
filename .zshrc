@@ -143,6 +143,7 @@ alias wifikey="sudo grep -r '^psk=' /etc/NetworkManager/system-connections/"
 alias pyup="python setup.py sdist bdist_wheel && twine upload dist/*"
 alias pir="pip install -r requirements.txt"
 alias pipi="pip install"
+alias pipu="pip uninstall"
 
 # MATLAB
 alias matlabt="matlab -nodesktop -nosplash"
