@@ -27,11 +27,22 @@ call plug#begin(g:plugged_home)
   " Formater
   Plug 'Chiel92/vim-autoformat'
 
-  "Editorconfig
+  " Editorconfig
   Plug 'editorconfig/editorconfig-vim'
 
   " Colour Scheme
-  Plug 'mhartington/oceanic-next'
+  Plug 'kaicataldo/material.vim'
+
+  " Vim Tmux Navigator
+  Plug 'christoomey/vim-tmux-navigator'
+
+  " NerdTree
+  Plug 'scrooloose/nerdtree'
+
+  " Git
+  Plug 'tpope/vim-fugitive'
+  Plug 'airblade/vim-gitgutter'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
 
 call plug#end()
 
@@ -47,6 +58,10 @@ filetype plugin indent on
 set nocompatible
 
 " Configurations Part
+
+" leader and localleader
+let mapleader = "\<Space>"
+let maplocalleader = ","
 
 " Turn on syntax highlighting.
 syntax on
@@ -111,16 +126,16 @@ set noerrorbells visualbell t_vb=
 set mouse+=a
 
 " colorscheme
-let base16colorspace=256
-colorscheme base16-gruvbox-dark-hard
+if (has("termguicolors"))
+  set termguicolors
+endif
 set background=dark
 
 " Theme
-syntax enable
-colorscheme OceanicNext
-let g:airline_theme='oceanicnext'
-let g:oceanic_next_terminal_bold = 1
-let g:oceanic_next_terminal_italic = 1
+colorscheme material
+let g:material_theme_style = 'palenight'
+"let g:airline_theme = "material"
+let g:material_terminal_italics=1
 
 " True Color Support if it's avaiable in terminal
 if has("termguicolors")
@@ -130,8 +145,13 @@ if has("gui_running")
   set guicursor=n-v-c-sm:block,i-ci-ve:block,r-cr-o:blocks
 endif
 
+" Dont show mode in status bar
 set noshowmode
-set noshowmatch
+
+" Show matching bracket
+set showmatch
+
+" Improve macro loading speed
 set nolazyredraw
 
 " Turn off backup
@@ -194,3 +214,20 @@ inoremap <Left>  <ESC>:echoe "Use h"<CR>
 inoremap <Right> <ESC>:echoe "Use l"<CR>
 inoremap <Up>    <ESC>:echoe "Use k"<CR>
 inoremap <Down>  <ESC>:echoe "Use j"<CR>
+
+" Disable tmux navigator when zooming the Vim pane
+let g:tmux_navigator_disable_when_zoomed = 1
+
+"nerd-tree Hide uneanted files
+let NERDTreeIgnore = [ '__pycache__', '\.pyc$', '\.o$', '\.swp',  '*\.swp',  'node_modules/' ]
+
+" Show hidden files
+let NERDTreeShowHidden=1
+
+" Autostart nerd-tree with vim
+autocmd vimenter * NERDTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:stdn_in") | NERDTree | endif
+
+" Toggling nerd-tree using Ctrl-n
+map <C-n> :NERDTreeToggle<CR>

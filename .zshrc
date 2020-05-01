@@ -79,6 +79,7 @@ plugins=(
 	git
 	zsh-autosuggestions
 	zsh-syntax-highlighting
+	tmux
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -148,6 +149,12 @@ alias pipu="pip uninstall"
 # MATLAB
 alias matlabt="matlab -nodesktop -nosplash"
 alias matlab-drive="~/bin/MATLABConnector toggle"
+
+# tmux
+alias t="_zsh_tmux_plugin_run -u"
+
+# nvim
+alias nvplugi="nvim -c :PlugInstall"
 
 # Functions
 
