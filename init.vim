@@ -31,7 +31,7 @@ call plug#begin(g:plugged_home)
   Plug 'editorconfig/editorconfig-vim'
 
   " Colour Scheme
-  Plug 'kaicataldo/material.vim'
+  Plug 'drewtempelmeyer/palenight.vim'
 
   " Vim Tmux Navigator
   Plug 'christoomey/vim-tmux-navigator'
@@ -132,10 +132,10 @@ endif
 set background=dark
 
 " Theme
-colorscheme material
-let g:material_theme_style = 'palenight'
-"let g:airline_theme = "material"
-let g:material_terminal_italics=1
+colorscheme palenight
+let g:lightline = { 'colorscheme': 'palenight' }
+let g:airline_theme = "palenight"
+let g:palenight_terminal_italics=1
 
 " True Color Support if it's avaiable in terminal
 if has("termguicolors")
@@ -225,9 +225,9 @@ let NERDTreeIgnore = [ '__pycache__', '\.pyc$', '\.o$', '\.swp',  '*\.swp',  'no
 let NERDTreeShowHidden=1
 
 " Autostart nerd-tree with vim
-autocmd vimenter * NERDTree
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:stdn_in") | NERDTree | endif
+"autocmd vimenter * NERDTree
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:stdn_in") | NERDTree | endif
 
 " Toggling nerd-tree using Ctrl-n
 map <C-n> :NERDTreeToggle<CR>
