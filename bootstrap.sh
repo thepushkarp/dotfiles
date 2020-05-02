@@ -2,8 +2,8 @@
 
 cd "$(dirname "${BASH_SOURCE}")";
 
-# echo "Fetching most recent version..."
-# git pull origin master;
+echo "Fetching most recent version..."
+git pull origin master;
 
 function doIt() {
     declare -a FILES
