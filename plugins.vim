@@ -38,6 +38,9 @@ call plug#begin(g:plugged_home)
   " NerdTree
   Plug 'scrooloose/nerdtree'
 
+  " DevIcons
+  Plug 'ryanoasis/vim-devicons'
+
   " Git
   Plug 'tpope/vim-fugitive'
   Plug 'airblade/vim-gitgutter'
