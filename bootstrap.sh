@@ -17,6 +17,7 @@ function doIt() {
         tmux.conf
         zshrc
         p10k.zsh
+        rvmrc
     )
 
     NVIMFILES=(

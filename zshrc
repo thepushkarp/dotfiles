@@ -133,6 +133,7 @@ alias upd="sudo apt update"
 alias upg="sudo apt upgrade"
 alias updg="sudo apt update && sudo apt upgrade"
 alias install="sudo apt install"
+alias remove="sudo apt remove"
 alias listupg="sudo apt list --upgradable"
 alias autoremove="sudo apt autoremove"
 alias autoclean="sudo apt autoclean"
@@ -224,9 +225,8 @@ export  PATH=$PATH:/usr/local/go/bin
 # vi keybind
 bindkey -v
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
 # Github CLI completion
 eval "$(gh completion -s zsh)"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
