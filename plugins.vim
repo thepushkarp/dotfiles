@@ -46,6 +46,8 @@ call plug#begin(g:plugged_home)
   Plug 'airblade/vim-gitgutter'
   Plug 'Xuyuanp/nerdtree-git-plugin'
 
-call plug#end()
+  " Prettier
+  Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
+call plug#end()
 
