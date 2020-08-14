@@ -132,11 +132,11 @@ alias diff="diff -u --color=always"
 alias upd="sudo apt update"
 alias upg="sudo apt upgrade"
 alias updg="sudo apt update && sudo apt upgrade"
-alias install="sudo apt install"
-alias remove="sudo apt remove"
-alias listupg="sudo apt list --upgradable"
-alias autoremove="sudo apt autoremove"
-alias autoclean="sudo apt autoclean"
+alias instl="sudo apt install"
+alias rmv="sudo apt remove"
+alias upgls="sudo apt list --upgradable"
+alias autorm="sudo apt autoremove"
+alias autocln="sudo apt autoclean"
 
 # Get WiFi keys
 alias wifikey="sudo grep -r '^psk=' /etc/NetworkManager/system-connections/"
@@ -161,6 +161,7 @@ alias nvplugi="nvim -c :PlugInstall"
 
 # MATLAB
 matlab-run() {
+    echo "Running MATLAB..."
     matlab -nodesktop -nosplash -r "$1"
 }
 
@@ -216,15 +217,8 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-# Broot installation
-source /home/pushkar/.config/broot/launcher/bash/br
-
-# GoLang installation
-export  PATH=$PATH:/usr/local/go/bin
-
 # vi keybind
 bindkey -v
 
 # Github CLI completion
 eval "$(gh completion -s zsh)"
-

@@ -10,14 +10,12 @@ function doIt() {
     declare -a NVIMFILES
 
     FILES=(
-        editorconfig
         gitconfig
         gitignore_global
         gitmessage
         tmux.conf
         zshrc
         p10k.zsh
-        rvmrc
     )
 
     NVIMFILES=(
