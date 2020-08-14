@@ -202,6 +202,12 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# vi keybind
+bindkey -v
+
+# Github CLI completion
+eval "$(gh completion -s zsh)"
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/home/pushkar/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -217,8 +223,3 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-# vi keybind
-bindkey -v
-
-# Github CLI completion
-eval "$(gh completion -s zsh)"
