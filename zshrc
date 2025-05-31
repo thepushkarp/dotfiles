@@ -203,18 +203,24 @@ export OLLAMA_KV_CACHE_TYPE=q8_0
 if [[ -s "/opt/homebrew/opt/nvm/nvm.sh" ]]; then
     export NVM_DIR="$HOME/.nvm"
 
-    # Create lazy loading wrapper
+    # Create lazy loading wrapper for nvm command only
     nvm() {
-        unset -f nvm node npm npx
+        unset -f nvm
         source "/opt/homebrew/opt/nvm/nvm.sh"
         [[ -r "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ]] && source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
         nvm "$@"
     }
 
-    # Create lazy wrappers for node commands
-    node() { nvm >/dev/null 2>&1; node "$@"; }
-    npm() { nvm >/dev/null 2>&1; npm "$@"; }
-    npx() { nvm >/dev/null 2>&1; npx "$@"; }
+    # Helper function to quickly switch to project-specific Node version
+    nvmuse() {
+        if [[ -f ".nvmrc" ]]; then
+            nvm use
+        else
+            echo "No .nvmrc file found in current directory"
+            echo "Available Node versions:"
+            nvm list
+        fi
+    }
 fi
 
 # SDKMAN lazy loading
@@ -231,7 +237,7 @@ fi
 # TOOL INITIALIZATION
 # ============================================================================
 
-# Initialize tools directly - simple and reliable approach
+# Initialize tools directly
 # Zoxide initialization
 if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init zsh)"
