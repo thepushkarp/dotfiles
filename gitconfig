@@ -1,13 +1,14 @@
 [core]
 	autocrlf = input
-	editor = nvim
-	excludesfile = ~/.gitignore_global
+	editor = "cursor --wait"
+	excludesfile = ~/.gitignore
 [color]
 	ui = auto
 [commit]
 	template = ~/.gitmessage
+	gpgsign = true
 [alias]
-	lg = log --graph --branches --oneline --decorate --pretty=format:'%C(yellow)%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+	lg = log --graph --all --tags --branches --topo-order --oneline --decorate --pretty=format:'%C(yellow)%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 	co = checkout
 	st = status
 	ci = commit
@@ -15,9 +16,38 @@
 	unstage = reset HEAD --
 	last = log -1 HEAD
 	uncommit = reset HEAD~
-[credential]
-	helper = cache --timeout=21600
-[merge]
-	conflictstyle = diff3
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
 [push]
-	default = current
+	autoSetupRemote = true
+[diff]
+	colorMoved = default
+	algorithim = histogram
+	submodule = log
+[branch]
+	sort = -committerdate
+[tag]
+	sort = taggerdate
+[merge]
+	conflitStyle = zdiff3
+[transfer]
+	fsckobjects = true
+[fetch]
+	fsckobjects = true
+[receive]
+	fsckobjects = true
+[submodule]
+	recurse = true
+[status]
+	submoduleSummary = true
+[credential]
+	helper = cache --timeout=604800
+[gpg]
+	format = ssh
+[http]
+	postBuffer = 1048576000

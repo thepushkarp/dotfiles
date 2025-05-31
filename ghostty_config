@@ -1,0 +1,69 @@
+# ==============================================================================
+# THEME & APPEARANCE
+# ==============================================================================
+
+# Theme configuration
+theme = light:github-light-default,dark:github-dark-default
+
+# ==============================================================================
+# FONT CONFIGURATION
+# ==============================================================================
+
+# Fixed font family with proper weight specification
+font-family = "Monaspace Krypton Var SemiWide Bold"
+
+# Font size
+font-size = 14
+
+# ==============================================================================
+# WINDOW CONFIGURATION
+# ==============================================================================
+
+# Window dimensions
+window-height = 40
+window-width = 140
+
+# Window padding
+window-padding-x = 8
+window-padding-y = 4
+
+# ==============================================================================
+# SHELL INTEGRATION
+# ==============================================================================
+
+# Enable shell integration for zsh
+shell-integration = zsh
+
+# Basic shell integration features
+shell-integration-features = no-cursor
+
+# ==============================================================================
+# CURSOR CONFIGURATION
+# ==============================================================================
+
+# Cursor appearance
+cursor-style = block
+
+# ==============================================================================
+# CLIPBOARD & INTERACTION
+# ==============================================================================
+
+# Clipboard integration
+clipboard-read = allow
+clipboard-write = allow
+
+# ==============================================================================
+# KEYBOARD SHORTCUTS (macOS)
+# ==============================================================================
+
+# Basic keybindings that are well-supported
+keybind = cmd+t=new_tab
+keybind = cmd+w=close_surface
+keybind = cmd+n=new_window
+
+# ==============================================================================
+# PERFORMANCE & COMPATIBILITY
+# ==============================================================================
+
+# Working directory inheritance
+working-directory = home

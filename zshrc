@@ -1,225 +1,331 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block, everything else may go below.
+# Performance profiling (uncomment to measure startup time)
+# zmodload zsh/zprof
+
+# Enable zsh optimizations
+setopt AUTO_CD              # cd by typing directory name if it's not a command
+setopt AUTO_LIST            # automatically list choices on ambiguous completion
+setopt AUTO_MENU            # automatically use menu completion
+setopt ALWAYS_TO_END        # move cursor to end if word had one match
+setopt HIST_VERIFY          # show command with history expansion to user before running it
+setopt SHARE_HISTORY        # share command history data
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
+setopt HIST_SAVE_NO_DUPS
+
+# Enable Powerlevel10k instant prompt (must be near top)
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+# Initialize completion system ONCE with smart caching
+autoload -Uz compinit
+typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
+if [ $(date +'%j') != $updated_at ]; then
+  compinit -i
+else
+  compinit -C -i
+fi
 
-# Path to your oh-my-zsh installation.
-export ZSH="/home/pushkar/.oh-my-zsh"
+# Initialize Zinit with optimized settings
+declare -A ZINIT
+ZINIT[HOME_DIR]="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit"
+ZINIT[ZCOMPDUMP_PATH]="${XDG_CACHE_HOME:-$HOME/.cache}/.zcompdump"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# Create zinit directory if it doesn't exist
+if [[ ! -d "${ZINIT[HOME_DIR]}" ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing ZDHARMA-CONTINUUM Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "${ZINIT[HOME_DIR]}" && command chmod g-rwX "${ZINIT[HOME_DIR]}"
+    command git clone https://github.com/zdharma-continuum/zinit "${ZINIT[HOME_DIR]}/zinit.git" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+source "${ZINIT[HOME_DIR]}/zinit.git/zinit.zsh"
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+# Load Powerlevel10k theme first for instant prompt
+zinit ice depth=1
+zinit light romkatv/powerlevel10k
 
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+# Define essential functions early
+function omz_urlencode() {
+    local length="${#1}"
+    for (( i = 0; i < length; i++ )); do
+        local c="${1:$i:1}"
+        case $c in
+            [a-zA-Z0-9.~_-]) printf "$c" ;;
+            ' ') printf "+" ;;
+            *) printf '%%%02X' "'$c" ;;
+        esac
+    done
+}
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+# Essential OMZ libraries - load synchronously for core functionality
+zinit wait lucid for \
+    OMZL::git.zsh \
+    OMZL::history.zsh \
+    OMZL::completion.zsh \
+    OMZL::directories.zsh
 
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+# Load remaining OMZ libraries in turbo mode
+zinit wait"1" lucid for \
+    OMZL::clipboard.zsh \
+    OMZL::theme-and-appearance.zsh \
+    OMZL::termsupport.zsh
 
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# Core plugins - load immediately but with turbo
+zinit wait lucid for \
+    OMZP::git \
+    OMZP::colored-man-pages
 
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS=true
+# Secondary plugins - defer loading
+zinit wait"2" lucid for \
+    OMZP::pip \
+    OMZP::python \
+    OMZP::brew
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+# Syntax highlighting and completions - load with proper timing
+zinit wait lucid for \
+    atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+        zdharma-continuum/fast-syntax-highlighting \
+    blockf \
+        zsh-users/zsh-completions \
+    atload"!_zsh_autosuggest_start" \
+        zsh-users/zsh-autosuggestions
 
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+# ============================================================================
+# ENVIRONMENT VARIABLES
+# ============================================================================
 
-# Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+# Editor configuration
+export EDITOR='cursor'
+export VISUAL='cursor'
 
-# Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
+# History configuration
+export HISTSIZE=50000
+export SAVEHIST=10000
+export HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+# Cache directory for completions
+export ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+[[ -d "$ZSH_CACHE_DIR" ]] || mkdir -p "$ZSH_CACHE_DIR"
 
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
+# ============================================================================
+# PATH OPTIMIZATION
+# ============================================================================
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+# Function to add to PATH only if directory exists and not already in PATH
+function add_to_path() {
+    local dir="$1"
+    if [[ -d "$dir" && ":$PATH:" != *":$dir:"* ]]; then
+        export PATH="$dir:$PATH"
+    fi
+}
 
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-	git
-	zsh-autosuggestions
-	zsh-syntax-highlighting
-	tmux
+# Core system paths
+add_to_path "/Library/TeX/texbin"
+add_to_path "/opt/homebrew/bin"
+add_to_path "/opt/homebrew/sbin"
+
+# Development tool paths
+typeset -a dev_paths=(
+    "$HOME/.local/bin"
+    "$HOME/.bun/bin"
+    "$HOME/.yarn/bin"
+    "$HOME/.config/yarn/global/node_modules/.bin"
+    "$HOME/.deta/bin"
+    "$HOME/.cache/lm-studio/bin"
+    "$HOME/.codeium/windsurf/bin"
+    "$HOME/.atuin/bin/env"
 )
 
-source $ZSH/oh-my-zsh.sh
+for path_entry in "${dev_paths[@]}"; do
+    add_to_path "$path_entry"
+done
 
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-export EDITOR='vim'
-if test $(which nvim); then
-  alias vim=nvim
-  alias vimdiff='nvim -d'
-
-  # Preferred editor for local and remote sessions
-  if [[ $SSH_CONNECTION ]]; then
-    export EDITOR='nvim'
-  fi
+# Go path (with error suppression)
+if command -v go >/dev/null 2>&1; then
+    add_to_path "$(go env GOPATH 2>/dev/null)/bin"
 fi
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+# ============================================================================
+# ENVIRONMENT SETUP
+# ============================================================================
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
+# Java setup
+if [[ -d "/opt/homebrew/opt/openjdk" ]]; then
+    export JAVA_HOME="/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home"
+    add_to_path "$JAVA_HOME/bin"
 
-# Aliases
-
-# ZSH and P10K
-alias zshconfig="code ~/.zshrc"
-alias ohmyzsh="code ~/.oh-my-zsh"
-alias updp10k="git -C $ZSH_CUSTOM/themes/powerlevel10k pull"
-alias loadzsh="source ~/.zshrc"
-
-# System Commands
-alias bye="exit"
-alias :q="exit"
-alias cls="clear"
-alias cpv="rsync -avhW --no-compress --progress"
-alias greph="history | grep"
-alias grepv="grep -HIrn"
-alias grepc="grep -c"
-alias diff="diff -u --color=always"
-
-# Ubuntu Commands
-alias upd="sudo apt update"
-alias upg="sudo apt upgrade"
-alias updg="sudo apt update && sudo apt upgrade"
-alias instl="sudo apt install"
-alias rmv="sudo apt remove"
-alias upgls="sudo apt list --upgradable"
-alias autorm="sudo apt autoremove"
-alias autocln="sudo apt autoclean"
-
-# Get WiFi keys
-alias wifikey="sudo grep -r '^psk=' /etc/NetworkManager/system-connections/"
-
-# Python
-alias pyup="python setup.py sdist bdist_wheel && twine upload dist/*"
-alias pir="pip install -r requirements.txt"
-alias pipi="pip install"
-alias pipu="pip uninstall"
-
-# MATLAB
-alias matlabt="matlab -nodesktop -nosplash"
-alias matlab-drive="~/bin/MATLABConnector toggle"
-
-# tmux
-alias t="_zsh_tmux_plugin_run -u"
-
-# nvim
-alias nvplugi="nvim -c :PlugInstall"
-
-# Functions
-
-# MATLAB
-matlab-run() {
-    echo "Running MATLAB..."
-    matlab -nodesktop -nosplash -r "$1"
-}
-
-# Change Directory and open in VSCode
-ccd() {
-    cd "$1" && code .
-}
-
-# C and C++
-cpp-run() {
-    echo "Compiling file..."
-    g++ -o "$1" "$1.cpp"
-    echo "Compiled!"
-    ./"$1"
-}
-c-run() {
-    echo "Compiling file..."
-    gcc -o "$1" "$1.c"
-    echo "Compiled!"
-    ./"$1"
-}
-
-# Convert gif to webm format
-gif2webm() {
-    ffmpeg -i $1.gif -c vp9 -b:v 0 -crf 41 $1.webm
-}
-
-# Short GitHub url
-gurl() {
-    curl -i https://git.io -F "url=$1" \
-    -F "code=$2"
-}
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# vi keybind
-bindkey -v
-
-# Github CLI completion
-eval "$(gh completion -s zsh)"
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/pushkar/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/pushkar/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/pushkar/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/pushkar/anaconda3/bin:$PATH"
+    # Hadoop setup (only if Java is available)
+    local hadoop_dir="/opt/homebrew/Cellar/hadoop"
+    if [[ -d "$hadoop_dir" ]]; then
+        # Find the latest hadoop version dynamically
+        local hadoop_version=$(ls "$hadoop_dir" | sort -V | tail -n1)
+        export HADOOP_HOME="$hadoop_dir/$hadoop_version/libexec"
+        export HADOOP_CONF_DIR="$HADOOP_HOME/etc/hadoop"
+        export HADOOP_MAPRED_HOME="$HADOOP_HOME"
+        export HADOOP_COMMON_HOME="$HADOOP_HOME"
+        export HADOOP_HDFS_HOME="$HADOOP_HOME"
+        export YARN_HOME="$HADOOP_HOME"
+        export HADOOP_COMMON_LIB_NATIVE_DIR="$HADOOP_HOME/lib/native"
+        export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib"
+        export HADOOP_CLASSPATH="$JAVA_HOME/lib/tools.jar"
+        add_to_path "$HADOOP_HOME/bin"
+        add_to_path "$HADOOP_HOME/sbin"
     fi
 fi
-unset __conda_setup
-# <<< conda initialize <<<
 
+# OpenSSL setup
+if [[ -d "/opt/homebrew/opt/openssl@3" ]]; then
+    add_to_path "/opt/homebrew/opt/openssl@3/bin"
+    export LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib $LDFLAGS"
+    export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include $CPPFLAGS"
+    export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@3/lib/pkgconfig:$PKG_CONFIG_PATH"
+fi
+
+# Docker completions (only if Docker is installed)
+if [[ -d "/Users/pupa/.docker/completions" ]]; then
+    fpath=(/Users/pupa/.docker/completions $fpath)
+fi
+
+# Ollama configuration
+export OLLAMA_API_BASE="http://127.0.0.1:11434"
+export OLLAMA_FLASH_ATTENTION=1
+export OLLAMA_KV_CACHE_TYPE=q8_0
+
+# ============================================================================
+# LAZY LOADING OPTIMIZATIONS
+# ============================================================================
+
+# NVM lazy loading function
+if [[ -s "/opt/homebrew/opt/nvm/nvm.sh" ]]; then
+    export NVM_DIR="$HOME/.nvm"
+
+    # Create lazy loading wrapper
+    nvm() {
+        unset -f nvm node npm npx
+        source "/opt/homebrew/opt/nvm/nvm.sh"
+        [[ -r "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ]] && source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+        nvm "$@"
+    }
+
+    # Create lazy wrappers for node commands
+    node() { nvm >/dev/null 2>&1; node "$@"; }
+    npm() { nvm >/dev/null 2>&1; npm "$@"; }
+    npx() { nvm >/dev/null 2>&1; npx "$@"; }
+fi
+
+# SDKMAN lazy loading
+if [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
+    export SDKMAN_DIR="$HOME/.sdkman"
+    sdk() {
+        unset -f sdk
+        source "$HOME/.sdkman/bin/sdkman-init.sh"
+        sdk "$@"
+    }
+fi
+
+# ============================================================================
+# TOOL INITIALIZATION
+# ============================================================================
+
+# Initialize tools directly - simple and reliable approach
+# Zoxide initialization
+if command -v zoxide >/dev/null 2>&1; then
+    eval "$(zoxide init zsh)"
+    alias cd=z
+fi
+
+# Atuin initialization
+if command -v atuin >/dev/null 2>&1; then
+    eval "$(atuin init zsh)"
+fi
+
+# Ngrok completion
+if command -v ngrok >/dev/null 2>&1; then
+    eval "$(ngrok completion)"
+fi
+
+# Bun completions
+[[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
+
+# ============================================================================
+# ALIASES
+# ============================================================================
+
+# System aliases
+alias cls="clear"
+alias bye="exit"
+alias ll="ls -la"
+alias la="ls -A"
+alias l="ls -CF"
+
+# Configuration aliases
+alias zshconfig="$EDITOR ~/.zshrc"
+alias zshreload="source ~/.zshrc && echo 'ZSH config reloaded!'"
+
+# Git aliases
+alias treeg="git ls-tree -r --name-only HEAD | tree --fromfile"
+
+# Development aliases
+alias edit-claude-mcp="$EDITOR '/Users/pupa/Library/Application Support/Claude/claude_desktop_config.json'"
+alias edit-ghostty="$EDITOR '/Users/pupa/Library/Application Support/com.mitchellh.ghostty/config'"
+
+# Hadoop aliases (conditional)
+if [[ -n "$HADOOP_HOME" ]]; then
+    alias hstart="$HADOOP_HOME/sbin/start-all.sh"
+    alias hstop="$HADOOP_HOME/sbin/stop-all.sh"
+fi
+
+# Performance aliases
+alias zsh-bench="for i in {1..10}; do /usr/bin/time zsh -i -c exit; done"
+alias zsh-prof="zsh -i -c 'zprof | head -20'"
+
+# ============================================================================
+# FUNCTIONS
+# ============================================================================
+
+# Enhanced directory functions
+function mkcd() {
+    mkdir -p "$@" && cd "$_"
+}
+
+function cdls() {
+    cd "$1" && ls
+}
+
+# Performance testing function
+function zsh_startup_time() {
+    local total=0
+    local iterations=${1:-5}
+    echo "Testing ZSH startup time ($iterations iterations)..."
+
+    for i in $(seq 1 $iterations); do
+        local time_result=$(/usr/bin/time -p zsh -i -c exit 2>&1 | grep real | awk '{print $2}')
+        total=$(echo "$total + $time_result" | bc -l)
+        echo "Run $i: ${time_result}s"
+    done
+
+    local average=$(echo "scale=3; $total / $iterations" | bc -l)
+    echo "Average startup time: ${average}s"
+}
+
+# Quick profiling function
+function zsh_profile() {
+    zsh -i -c 'zmodload zsh/zprof; zprof | head -20'
+}
+
+# ============================================================================
+# FINAL SETUP
+# ============================================================================
+
+# Load p10k configuration
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Clean up functions
+unset -f add_to_path
+
+# Performance profiling output (uncomment to see results)
+# zprof
