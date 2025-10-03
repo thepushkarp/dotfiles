@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep:*)",
+      "Bash(cat:*)",
+      "Bash(find:*)",
+      "Bash(rg:*)",
+      "Bash(ast-grep:*)",
+      "Bash(awk:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(wc:*)",
+      "Bash(ls:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:arxiv.org)",
+      "WebFetch(domain:huggingface.co)",
+      "WebFetch(domain:docs.litellm.ai)",
+      "WebFetch(domain:openai.com)",
+      "WebFetch(domain:platform.openai.com)",
+      "WebFetch(domain:anthropic.com)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:ai.google.dev)",
+      "WebFetch(domain:googleapis.github.io)",
+      "WebFetch(domain:developers.googleblog.com)"
+    ],
+    "deny": []
+  },
+  "alwaysThinkingEnabled": false
+}
