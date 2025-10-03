@@ -23,7 +23,8 @@
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:ai.google.dev)",
       "WebFetch(domain:googleapis.github.io)",
-      "WebFetch(domain:developers.googleblog.com)"
+      "WebFetch(domain:developers.googleblog.com)",
+      "WebFetch(domain:modal.com)"
     ],
     "deny": []
   },
