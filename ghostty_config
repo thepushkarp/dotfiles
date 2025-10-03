@@ -3,7 +3,7 @@
 # ==============================================================================
 
 # Theme configuration
-theme = light:github-light-default,dark:github-dark-default
+theme = light:Github Light Default,dark:Github Dark Default
 
 # ==============================================================================
 # FONT CONFIGURATION
