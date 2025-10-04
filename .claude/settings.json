@@ -19,6 +19,7 @@
       "WebFetch(domain:docs.litellm.ai)",
       "WebFetch(domain:openai.com)",
       "WebFetch(domain:platform.openai.com)",
+      "WebFetch(domain:cookbook.openai.com)",
       "WebFetch(domain:anthropic.com)",
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:ai.google.dev)",
