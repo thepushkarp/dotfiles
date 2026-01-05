@@ -28,7 +28,7 @@ ln -sf ~/dotfiles/gitignore ~/.gitignore
 ln -sf ~/dotfiles/gitmessage ~/.gitmessage
 
 # For Ghostty
-ln -sf ~/dotfiles/ghostty_config ~/Library/Application\ Support/com.mitchellh.ghostty/config
+ln -sf ~/dotfiles/ghostty_config "~/Library/Application Support/com.mitchellh.ghostty/config"
 
 # For Claude Code
 ln -sf ~/dotfiles/.claude ~/.claude

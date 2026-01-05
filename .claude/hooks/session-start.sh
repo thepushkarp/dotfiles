@@ -16,19 +16,19 @@ if [ "$CLAUDE_CODE_REMOTE" = "true" ]; then
 
   # Python: sync dependencies with uv
   if [ -f "pyproject.toml" ]; then
-    uv sync --quiet 2>/dev/null || true
+    uv sync --quiet
   elif [ -f "requirements.txt" ]; then
-    uv pip install -r requirements.txt --quiet 2>/dev/null || true
+    uv pip install -r requirements.txt --quiet
   fi
 
   # Node/Frontend: install dependencies with yarn
   if [ -f "package.json" ]; then
     if [ -f "yarn.lock" ]; then
-      yarn install --silent 2>/dev/null || true
+      yarn install --silent
     elif [ -f "package-lock.json" ]; then
-      npm ci --silent 2>/dev/null || true
+      npm ci --silent
     else
-      yarn install --silent 2>/dev/null || true
+      yarn install --silent
     fi
   fi
 fi
