@@ -27,6 +27,7 @@
       "Bash(yarn lint:fix:*)",
       "WebSearch",
       "WebFetch(domain:github.com)",
+      "WebFetch(domain:api.github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:arxiv.org)",
       "WebFetch(domain:huggingface.co)",
