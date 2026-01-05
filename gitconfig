@@ -1,3 +1,7 @@
+[user]
+	name = Pushkar Patel
+	email = git@thepushkarp.com
+	signingkey = ~/.ssh/git_commit_signature.pub
 [core]
 	autocrlf = input
 	editor = "cursor --wait"
@@ -27,14 +31,14 @@
 	autoSetupRemote = true
 [diff]
 	colorMoved = default
-	algorithim = histogram
+	algorithm = histogram
 	submodule = log
 [branch]
 	sort = -committerdate
 [tag]
 	sort = taggerdate
 [merge]
-	conflitStyle = zdiff3
+	conflictStyle = zdiff3
 [transfer]
 	fsckobjects = true
 [fetch]
@@ -49,5 +53,7 @@
 	helper = cache --timeout=604800
 [gpg]
 	format = ssh
+[gpg "ssh"]
+	allowedSignersFile = ~/.ssh/allowed_signers
 [http]
 	postBuffer = 1048576000

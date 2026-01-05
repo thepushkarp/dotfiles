@@ -81,7 +81,6 @@ You: "I want to add feature X to improve Y performance...
 - Update relevant documentation after each phase
 - **Self-Correction Loop**: At each phase completion, run verification prompts to identify potential issues
 - Commit only when explicitly requested with descriptive messages
-- Do not add yourself or add a mention of you being a co-author to the commit
 - Keep implementation plans current with actual work
 
 ### 6. TTRL-Enhanced Key Principles

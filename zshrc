@@ -9,7 +9,6 @@ setopt ALWAYS_TO_END        # move cursor to end if word had one match
 setopt HIST_VERIFY          # show command with history expansion to user before running it
 setopt SHARE_HISTORY        # share command history data
 setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
@@ -144,9 +143,9 @@ for path_entry in "${dev_paths[@]}"; do
     add_to_path "$path_entry"
 done
 
-# Go path (with error suppression)
+# Go path
 if command -v go >/dev/null 2>&1; then
-    add_to_path "$(go env GOPATH 2>/dev/null)/bin"
+    add_to_path "${GOPATH:-$HOME/go}/bin"
 fi
 
 # ============================================================================
@@ -186,8 +185,8 @@ if [[ -d "/opt/homebrew/opt/openssl@3" ]]; then
 fi
 
 # Docker completions (only if Docker is installed)
-if [[ -d "/Users/pupa/.docker/completions" ]]; then
-    fpath=(/Users/pupa/.docker/completions $fpath)
+if [[ -d "$HOME/.docker/completions" ]]; then
+    fpath=($HOME/.docker/completions $fpath)
 fi
 
 # Ollama configuration
@@ -238,21 +237,20 @@ fi
 # ============================================================================
 
 # Initialize tools directly
-# Zoxide initialization
-if command -v zoxide >/dev/null 2>&1; then
-    eval "$(zoxide init zsh)"
-    alias cd=z
-fi
 
 # Atuin initialization
 if command -v atuin >/dev/null 2>&1; then
     eval "$(atuin init zsh)"
 fi
 
-# Ngrok completion
-if command -v ngrok >/dev/null 2>&1; then
-    eval "$(ngrok completion)"
-fi
+# Ngrok lazy loading
+ngrok() {
+    unset -f ngrok
+    if command -v ngrok >/dev/null 2>&1; then
+        eval "$(command ngrok completion)"
+    fi
+    command ngrok "$@"
+}
 
 # Bun completions
 [[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
@@ -267,6 +265,8 @@ alias bye="exit"
 alias ll="ls -la"
 alias la="ls -A"
 alias l="ls -CF"
+alias insomnia="sudo pmset -a disablesleep 1"
+alias sleepy="sudo pmset -a disablesleep 0"
 
 # Configuration aliases
 alias zshconfig="$EDITOR ~/.zshrc"
@@ -276,8 +276,8 @@ alias zshreload="source ~/.zshrc && echo 'ZSH config reloaded!'"
 alias treeg="git ls-tree -r --name-only HEAD | tree --fromfile"
 
 # Development aliases
-alias edit-claude-mcp="$EDITOR '/Users/pupa/Library/Application Support/Claude/claude_desktop_config.json'"
-alias edit-ghostty="$EDITOR '/Users/pupa/Library/Application Support/com.mitchellh.ghostty/config'"
+alias edit-claude-mcp='$EDITOR "$HOME/Library/Application Support/Claude/claude_desktop_config.json"'
+alias edit-ghostty='$EDITOR "$HOME/Library/Application Support/com.mitchellh.ghostty/config"'
 
 # Hadoop aliases (conditional)
 if [[ -n "$HADOOP_HOME" ]]; then
@@ -333,5 +333,14 @@ function zsh_profile() {
 # Clean up functions
 unset -f add_to_path
 
+# Zoxide initialization
+if command -v zoxide >/dev/null 2>&1; then
+    eval "$(zoxide init zsh)"
+    alias cd=z
+fi
+
 # Performance profiling output (uncomment to see results)
 # zprof
+
+# Added by Antigravity
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
