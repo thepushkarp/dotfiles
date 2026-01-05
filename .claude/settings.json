@@ -73,6 +73,7 @@
     "ralph-wiggum@claude-plugins-official": true,
     "playwright@claude-plugins-official": true
   },
+  "alwaysThinkingEnabled": true,
   "env": {
     "ENABLE_TOOL_SEARCH": "true"
   }

@@ -276,8 +276,8 @@ alias zshreload="source ~/.zshrc && echo 'ZSH config reloaded!'"
 alias treeg="git ls-tree -r --name-only HEAD | tree --fromfile"
 
 # Development aliases
-alias edit-claude-mcp="$EDITOR '$HOME/Library/Application Support/Claude/claude_desktop_config.json'"
-alias edit-ghostty="$EDITOR '$HOME/Library/Application Support/com.mitchellh.ghostty/config'"
+alias edit-claude-mcp='$EDITOR "$HOME/Library/Application Support/Claude/claude_desktop_config.json"'
+alias edit-ghostty='$EDITOR "$HOME/Library/Application Support/com.mitchellh.ghostty/config"'
 
 # Hadoop aliases (conditional)
 if [[ -n "$HADOOP_HOME" ]]; then
