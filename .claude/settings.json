@@ -4,6 +4,7 @@
       "Skill(commit-commands:commit)",
       "Skill(plugin-dev:plugin-structure)",
       "Skill(frontend-design:frontend-design)",
+      "Bash(gh issue view:*)",
       "Bash(grep:*)",
       "Bash(cat:*)",
       "Bash(find:*)",
