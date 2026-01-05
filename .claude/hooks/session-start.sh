@@ -64,12 +64,4 @@ if [ -f "TODO.md" ]; then
   head -15 TODO.md
 fi
 
-# Show CLAUDE.md summary if present (first 5 lines)
-if [ -f "CLAUDE.md" ]; then
-  echo ""
-  echo "=== Project Instructions ==="
-  head -5 CLAUDE.md
-  echo "..."
-fi
-
 exit 0

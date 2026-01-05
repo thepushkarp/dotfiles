@@ -57,7 +57,6 @@ The `session-start.sh` hook automatically sets up your development environment w
 - **Node/Frontend support**: Uses `yarn` (or `npm`) to install from `package.json`
 - **Git context**: Shows current branch, recent commits, and uncommitted changes
 - **TODO loading**: Displays active TODOs if `TODO.md` exists
-- **CLAUDE.md preview**: Shows first few lines of project instructions
 
 #### Usage
 
