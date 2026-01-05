@@ -1,6 +1,9 @@
 {
   "permissions": {
     "allow": [
+      "Skill(commit-commands:commit)",
+      "Skill(plugin-dev:plugin-structure)",
+      "Skill(frontend-design:frontend-design)",
       "Bash(grep:*)",
       "Bash(cat:*)",
       "Bash(find:*)",
@@ -11,6 +14,17 @@
       "Bash(tail:*)",
       "Bash(wc:*)",
       "Bash(ls:*)",
+      "Bash(uv run ruff:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm install:*)",
+      "Bash(yarn install)",
+      "Bash(yarn build:*)",
+      "Bash(yarn add:*)",
+      "Bash(yarn prepare)",
+      "Bash(yarn format:*)",
+      "Bash(yarn lint:*)",
+      "Bash(yarn lint:fix:*)",
       "WebSearch",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
@@ -19,15 +33,47 @@
       "WebFetch(domain:docs.litellm.ai)",
       "WebFetch(domain:openai.com)",
       "WebFetch(domain:platform.openai.com)",
-      "WebFetch(domain:cookbook.openai.com)",
       "WebFetch(domain:anthropic.com)",
+      "WebFetch(domain:cookbook.openai.com)",
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:ai.google.dev)",
       "WebFetch(domain:googleapis.github.io)",
       "WebFetch(domain:developers.googleblog.com)",
-      "WebFetch(domain:modal.com)"
+      "WebFetch(domain:modal.com)",
+      "WebFetch(domain:docs.openwebui.com)"
     ],
-    "deny": []
+    "deny": [],
+    "ask": [],
+    "defaultMode": "default"
   },
-  "alwaysThinkingEnabled": false
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "agent-sdk-dev@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "explanatory-output-style@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "hookify@claude-plugins-official": true,
+    "learning-output-style@claude-plugins-official": true,
+    "plugin-dev@claude-plugins-official": true,
+    "pr-review-toolkit@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "perf@perf-hints": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "brainstorm@brainstorm-plan": true,
+    "vercel@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "ralph-wiggum@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true
+  },
+  "env": {
+    "ENABLE_TOOL_SEARCH": "true"
+  }
 }
