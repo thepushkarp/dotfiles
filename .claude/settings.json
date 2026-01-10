@@ -1,13 +1,32 @@
 {
-  "env": {
-    "ENABLE_TOOL_SEARCH": "true"
-  },
   "permissions": {
     "allow": [
+      "Read(./claude/**)",
       "Skill(commit-commands:commit)",
       "Skill(plugin-dev:plugin-structure)",
       "Skill(frontend-design:frontend-design)",
+      "Bash(git add:*)",
+      "Bash(git fetch:*)",
+      "Bash(git pull:*)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git checkout:*)",
+      "Bash(git init:*)",
+      "Bash(git branch:*)",
+      "Bash(git remote:*)",
+      "Bash(git commit:*)",
+      "Bash(gh issue list:*)",
+      "Bash(gh issue status:*)",
       "Bash(gh issue view:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr status:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr checkout:*)",
+      "Bash(gh pr update-branch:*)",
+      "Bash(gh repo list:*)",
+      "Bash(gh repo view:*)",
+      "Bash(gh repo sync:*)",
       "Bash(grep:*)",
       "Bash(cat:*)",
       "Bash(find:*)",
@@ -31,6 +50,7 @@
       "Bash(yarn format:*)",
       "Bash(yarn lint:*)",
       "Bash(yarn lint:fix:*)",
+      "Bash(yarn remove:*)",
       "WebSearch",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:api.github.com)",
@@ -51,20 +71,27 @@
       "WebFetch(domain:googleapis.github.io)",
       "WebFetch(domain:developers.googleblog.com)",
       "WebFetch(domain:modal.com)",
-      "WebFetch(domain:docs.openwebui.com)"
+      "WebFetch(domain:docs.openwebui.com)",
+      "WebFetch(domain:reddit.com)"
     ],
     "deny": [
       "Bash(rm -rf:*)",
-      "Read(.env)",
-      "Read(secrets/**)",
-      "Bash(sudo:*)"
+      "Bash(sudo:*)",
+      "Read(./.env)",
+      "Read(./secrets/**)"
     ],
     "ask": [
       "Bash(rm:*)",
       "Bash(git push:*)",
       "Bash(git reset:*)",
       "Bash(git restore:*)",
-      "Bash(git clean:*)"
+      "Bash(git clean:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(gh repo create:*)",
+      "Bash(gh repo delete:*)",
+      "Bash(gh repo clone:*)",
+      "Bash(gh repo fork:*)"
     ],
     "defaultMode": "acceptEdits"
   },
@@ -73,9 +100,12 @@
     "commit": "",
     "pr": ""
   },
+  "env": {
+    "ENABLE_TOOL_SEARCH": "true"
+  },
   "statusLine": {
     "type": "command",
-    "command": "bash ~/.claude/statusline-command.sh"
+    "command": "bash /Users/pupa/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
     "agent-sdk-dev@claude-plugins-official": true,
