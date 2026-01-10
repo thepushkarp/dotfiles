@@ -1,4 +1,7 @@
 {
+  "env": {
+    "ENABLE_TOOL_SEARCH": "true"
+  },
   "permissions": {
     "allow": [
       "Skill(commit-commands:commit)",
@@ -15,6 +18,8 @@
       "Bash(tail:*)",
       "Bash(wc:*)",
       "Bash(ls:*)",
+      "Bash(cp:*)",
+      "Bash(timeout:*)",
       "Bash(uv run ruff:*)",
       "Bash(mkdir:*)",
       "Bash(npm run build:*)",
@@ -35,18 +40,38 @@
       "WebFetch(domain:docs.litellm.ai)",
       "WebFetch(domain:openai.com)",
       "WebFetch(domain:platform.openai.com)",
-      "WebFetch(domain:anthropic.com)",
       "WebFetch(domain:cookbook.openai.com)",
+      "WebFetch(domain:community.openai.com)",
+      "WebFetch(domain:anthropic.com)",
       "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:claude.com)",
+      "WebFetch(domain:code.claude.com)",
+      "WebFetch(domain:platform.claude.com)",
       "WebFetch(domain:ai.google.dev)",
       "WebFetch(domain:googleapis.github.io)",
       "WebFetch(domain:developers.googleblog.com)",
       "WebFetch(domain:modal.com)",
       "WebFetch(domain:docs.openwebui.com)"
     ],
-    "deny": [],
-    "ask": [],
-    "defaultMode": "default"
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Read(.env)",
+      "Read(secrets/**)",
+      "Bash(sudo:*)"
+    ],
+    "ask": [
+      "Bash(rm:*)",
+      "Bash(git push:*)",
+      "Bash(git reset:*)",
+      "Bash(git restore:*)",
+      "Bash(git clean:*)"
+    ],
+    "defaultMode": "acceptEdits"
+  },
+  "alwaysThinkingEnabled": true,
+  "attribution": {
+    "commit": "",
+    "pr": ""
   },
   "statusLine": {
     "type": "command",
@@ -73,10 +98,11 @@
     "vercel@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
     "ralph-wiggum@claude-plugins-official": true,
-    "playwright@claude-plugins-official": true
-  },
-  "alwaysThinkingEnabled": true,
-  "env": {
-    "ENABLE_TOOL_SEARCH": "true"
+    "playwright@claude-plugins-official": true,
+    "handoff@handoff": true,
+    "serena@claude-plugins-official": true,
+    "ralph-loop@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "huggingface-skills@claude-plugins-official": true
   }
 }
