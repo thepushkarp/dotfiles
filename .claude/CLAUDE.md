@@ -63,7 +63,7 @@ You: "I want to add feature X to improve Y performance...
 - Always be following this process of planning, research, evidence and reference collection, grounding, documenting and final solution.
 
 ### 3. TTRL-Enhanced Planning with Depth-First Search (DFS)
-- **Multi-Agent Plan Generation**: Create 3-5 alternative implementation approaches using different agents/perspectives
+- **Multi-Agent Plan Generation**: Create 3-5 alternative implementation approaches using different agents/subagents/perspectives
 - **Consensus-Based Plan Selection**: Choose implementation plan based on consensus among generated alternatives
 - Create comprehensive implementation plans with clear phases
 - Follow DFS: complete one task fully before moving to next
@@ -80,7 +80,7 @@ You: "I want to add feature X to improve Y performance...
 - **Multi-Agent Code Review**: Before marking tasks complete, generate 2-3 independent review perspectives and require consensus
 - Update relevant documentation after each phase
 - **Self-Correction Loop**: At each phase completion, run verification prompts to identify potential issues
-- Commit only when explicitly requested with descriptive messages
+- Commit only when explicitly requested with descriptive conventional-commit style message.
 - Keep implementation plans current with actual work
 
 ### 6. TTRL-Enhanced Key Principles
@@ -96,7 +96,7 @@ You: "I want to add feature X to improve Y performance...
 ### Core TTRL Methodology for Agent Systems
 
 #### 1. Consensus-Based Decision Making
-- **Multi-Perspective Generation**: For any significant decision, generate 3-5 alternative approaches
+- **Multi-Perspective Generation**: For any significant decision, generate 3-5 alternative approaches. Spawn subagents to help with the decision-making process.
 - **Consensus Evaluation**: Select approaches that achieve majority agreement across generated alternatives
 - **Self-Correction**: When consensus is low, regenerate approaches with refined understanding
 
@@ -136,69 +136,28 @@ For all solution verification and code reviews:
 3. **Structured Findings**: Use Location → Issue format for all discovered problems
 4. **Final Verdict**: Provide clear overall assessment of solution validity
 
-## Code Style
-- **Python 3.13**, PyTorch 2.0+
-- **Imports**: Standard library first, then third-party (torch), then local
-- **Naming**: snake_case variables/functions, UPPER_CASE constants, CamelCase classes
-- **Types**: Use type hints (Optional, Tuple, Dict, List from typing)
-- **Error handling**: Minimal, focus on performance optimization
-- **Comments**: Sparse, performance-critical sections only
-- **Memory**: Tight memory management, gradient accumulation, flash attention integration
-- Take actions that an old deep pytorch god would take: overengineering is to be avoided, wisdom is to be default
-- **uv**: For python, always use `uv` as the tool of choice for dependency and environment management unless the project uses something else (like `poetry`)
+## Plan Mode
+- Make the plan extremely succinct. Sacrifice grammar for the sake of concision.
+- At the end of each plan, give me a list of unresolved questions to answer, if any.
 
 ## Documentation Style Preferences
 
 ### Educational Focus
-- **Layered Explanations**: Start intuitive → add mathematical detail → show code examples
-- **Visual Learning**: ASCII diagrams, tensor shape annotations, step-by-step breakdowns
+- **Layered Explanations**: Start intuitive → add mathematical detail (if needed) → show code examples
+- **Visual Learning**: ASCII diagrams, tensor shape annotations, schema descriptions, step-by-step breakdowns
 - **Context-Aware**: Every technical detail explained in terms of why it matters
 - **New Grad Friendly**: Assumes basic programming but explains all ML/ concepts
 
 ## Learning & Interaction Style
 
-- **Intuitive, progressive explanations**: Start with analogies, build to technical depth, always show code and real tensor values.
+- **Intuitive, progressive explanations**: Start with analogies, build to technical depth, always show code and real variable/tensor values.
 - **Active correction & clarity**: Judge understanding precisely, address misconceptions, and distinguish parameters, gradients, and memory implications.
-- **Visual & concrete**: Use ASCII diagrams, show gradient/data flows, and always provide concrete PyTorch examples.
+- **Visual & concrete**: Use ASCII diagrams, show gradient/data flows, and always provide concrete variable/tensor values examples.
 - **Performance & accessibility**: Prioritize speed, mathematical correctness, and beginner-friendly breakdowns with real examples.
 
 ### Code Search and Analysis Tools
 
-#### Primary Search Tool: ast-grep (sg)
-**Install**: `brew install ripgrep` (Already installed on machine)
-
-**Usage Patterns**:
-```bash
-# Find function definitions
-sg -p 'def $FUNC_NAME($$$): $$$' file.py
-
-# Find specific variable assignments
-sg -p '$VAR = $_' file.py
-
-# Find class instantiations with parameters
-sg -p 'ClassName($$$, param=$_)' file.py
-
-# Find specific method calls
-sg -p 'object.method($$$)' file.py
-
-# Find imports and specific patterns
-sg -p 'from $_ import $_' file.py
-sg -p 'import $_' file.py
-```
-
-**Verification Examples**:
-```bash
-# Check config parameters
-sg -p 'EVAL_FRACTION = $_' config.py
-sg -p 'EVAL_INTERVAL = $_' config.py
-
-# Verify function signatures
-sg -p 'def evaluate_model($$$): $$$' train_core.py
-
-# Find specific tensor operations
-sg -p 'torch.cat([contexts, targets], dim=1)' train_core.py
-sg -p 'model.eval()' train_core.py
-```
+Use `ast-grep` (sg) as the primary search tool for code verification and analysis.
 
 **Advantages over text search**:
 - Understands Python AST structure (no false positives)
