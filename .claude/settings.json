@@ -6,6 +6,8 @@
     "commit": "",
     "pr": ""
   },
+  "respectGitignore": true,
+  "plansDirectory": "./docs/plans",
   "permissions": {
     "allow": [
       "Read(./claude/**)",
