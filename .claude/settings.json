@@ -138,5 +138,5 @@
     "ast-grep@ast-grep-marketplace": true
   },
   "alwaysThinkingEnabled": true,
-  "autoUpdatesChannel": "stable",
+  "autoUpdatesChannel": "latest",
 }
