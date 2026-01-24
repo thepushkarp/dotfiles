@@ -1,6 +1,6 @@
 # dotfiles
 
-Personal configuration files for shell, git, terminal, and Claude Code.
+Personal configuration files for shell, git, terminal, tmux, and Claude Code.
 
 ## Contents
 
@@ -8,6 +8,7 @@ Personal configuration files for shell, git, terminal, and Claude Code.
 |------|-------------|
 | `zshrc` | Zsh configuration with Zinit, lazy loading, aliases |
 | `p10k.zsh` | Powerlevel10k prompt theme |
+| `tmux.conf` | Tmux configuration with Catppuccin Mocha theme, vim-style bindings, TPM plugins |
 | `gitconfig` | Git configuration with aliases and signing |
 | `gitignore` | Global gitignore patterns |
 | `gitmessage` | Git commit message template |
@@ -23,6 +24,7 @@ git clone https://github.com/thepushkarp/dotfiles ~/dotfiles
 # Symlink configs
 ln -sf ~/dotfiles/zshrc ~/.zshrc
 ln -sf ~/dotfiles/p10k.zsh ~/.p10k.zsh
+ln -sf ~/dotfiles/tmux.conf ~/.tmux.conf
 ln -sf ~/dotfiles/gitconfig ~/.gitconfig
 ln -sf ~/dotfiles/gitignore ~/.gitignore
 ln -sf ~/dotfiles/gitmessage ~/.gitmessage
