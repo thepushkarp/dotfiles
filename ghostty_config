@@ -68,3 +68,9 @@ keybind = cmd+n=new_window
 # Working directory inheritance
 working-directory = home
 keybind = shift+enter=text:\n
+
+# ==============================================================================
+# Updates
+# ==============================================================================
+auto-update = download
+auto-update-channel = tip
