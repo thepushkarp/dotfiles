@@ -3,7 +3,8 @@
   "env": {
     "ENABLE_TOOL_SEARCH": "true",
     "CLAUDE_CODE_ENABLE_TASKS": "true",
-    "FORCE_AUTOUPDATE_PLUGINS": "true"
+    "FORCE_AUTOUPDATE_PLUGINS": "true",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "attribution": {
     "commit": "",
@@ -124,12 +125,8 @@
     "security-guidance@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
     "perf@perf-hints": true,
-    "pyright-lsp@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true,
     "brainstorm@brainstorm-plan": true,
     "vercel@claude-plugins-official": true,
-    "typescript-lsp@claude-plugins-official": true,
-    "ralph-wiggum@claude-plugins-official": true,
     "playwright@claude-plugins-official": true,
     "handoff@handoff": true,
     "serena@claude-plugins-official": true,
@@ -140,8 +137,8 @@
     "cc-codex-plugin@cc-codex-plugin": true,
     "claude-code-setup@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
-    "superpowers@claude-plugins-official": true,
-    "cc-gemini-plugin@cc-gemini-plugin": true
+    "cc-gemini-plugin@cc-gemini-plugin": true,
+    "playground@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
   "autoUpdatesChannel": "latest",
