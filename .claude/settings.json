@@ -142,5 +142,6 @@
   },
   "alwaysThinkingEnabled": true,
   "autoUpdatesChannel": "latest",
-  "plansDirectory": "./docs/plans"
+  "plansDirectory": "./docs/plans",
+  "teammateMode": "tmux"
 }
