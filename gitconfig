@@ -1,7 +1,3 @@
-[user]
-	name = Pushkar Patel
-	email = git@thepushkarp.com
-	signingkey = ~/.ssh/git_commit_signature.pub
 [core]
 	autocrlf = input
 	editor = "cursor --wait"

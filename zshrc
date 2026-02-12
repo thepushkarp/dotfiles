@@ -137,6 +137,7 @@ typeset -a dev_paths=(
     "$HOME/.cache/lm-studio/bin"
     "$HOME/.codeium/windsurf/bin"
     "$HOME/.atuin/bin/env"
+    "$HOME/.opencode/bin"
 )
 
 for path_entry in "${dev_paths[@]}"; do
@@ -242,6 +243,16 @@ fi
 if command -v atuin >/dev/null 2>&1; then
     eval "$(atuin init zsh)"
 fi
+
+# FZF integration (Ctrl+R history, Ctrl+T files, Alt+C dirs)
+[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
+
+# Thefuck - lazy loaded (press ESC ESC after a mistake)
+fuck() {
+    unfunction fuck
+    eval "$(thefuck --alias)"
+    fuck "$@"
+}
 
 # Ngrok lazy loading
 ngrok() {
