@@ -13,6 +13,11 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
 
+# Auto-attach to tmux on SSH connections
+if [[ -n "$SSH_CONNECTION" && -z "$TMUX" ]]; then
+  exec tmux
+fi
+
 # Enable Powerlevel10k instant prompt (must be near top)
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -137,7 +142,6 @@ typeset -a dev_paths=(
     "$HOME/.cache/lm-studio/bin"
     "$HOME/.codeium/windsurf/bin"
     "$HOME/.atuin/bin/env"
-    "$HOME/.opencode/bin"
 )
 
 for path_entry in "${dev_paths[@]}"; do
@@ -186,8 +190,8 @@ if [[ -d "/opt/homebrew/opt/openssl@3" ]]; then
 fi
 
 # Docker completions (only if Docker is installed)
-if [[ -d "$HOME/.docker/completions" ]]; then
-    fpath=($HOME/.docker/completions $fpath)
+if [[ -d "/Users/pupa/.docker/completions" ]]; then
+    fpath=(/Users/pupa/.docker/completions $fpath)
 fi
 
 # Ollama configuration
@@ -245,7 +249,7 @@ if command -v atuin >/dev/null 2>&1; then
 fi
 
 # FZF integration (Ctrl+R history, Ctrl+T files, Alt+C dirs)
-[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Thefuck - lazy loaded (press ESC ESC after a mistake)
 fuck() {
@@ -350,8 +354,14 @@ if command -v zoxide >/dev/null 2>&1; then
     alias cd=z
 fi
 
+# Added by Antigravity
+export PATH="/Users/pupa/.antigravity/antigravity/bin:$PATH"
+
+# opencode
+export PATH=/Users/pupa/.opencode/bin:$PATH
+
+# bun completions
+[ -s "/Users/pupa/.bun/_bun" ] && source "/Users/pupa/.bun/_bun"
+
 # Performance profiling output (uncomment to see results)
 # zprof
-
-# Added by Antigravity
-export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
