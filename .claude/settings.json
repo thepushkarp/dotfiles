@@ -19,7 +19,6 @@
       "Skill(commit-commands:commit)",
       "Skill(plugin-dev:plugin-structure)",
       "Skill(frontend-design:frontend-design)",
-      "mcp__plugin_serena_serena__list_dir",
       "Bash(git add:*)",
       "Bash(git fetch:*)",
       "Bash(git pull:*)",
@@ -115,7 +114,6 @@
     "command": "bash ~/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
-    "agent-sdk-dev@claude-plugins-official": true,
     "code-review@claude-plugins-official": true,
     "commit-commands@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
@@ -123,28 +121,22 @@
     "feature-dev@claude-plugins-official": true,
     "hookify@claude-plugins-official": true,
     "learning-output-style@claude-plugins-official": true,
-    "plugin-dev@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": true,
     "security-guidance@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
-    "perf@perf-hints": true,
     "brainstorm@brainstorm-plan": true,
-    "vercel@claude-plugins-official": true,
-    "playwright@claude-plugins-official": true,
     "handoff@handoff": true,
-    "serena@claude-plugins-official": true,
     "ralph-loop@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
-    "huggingface-skills@claude-plugins-official": true,
     "ast-grep@ast-grep-marketplace": true,
     "cc-codex-plugin@cc-codex-plugin": true,
     "claude-code-setup@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
-    "cc-gemini-plugin@cc-gemini-plugin": true,
-    "playground@claude-plugins-official": true
+    "cc-gemini-plugin@cc-gemini-plugin": true
   },
   "alwaysThinkingEnabled": true,
   "autoUpdatesChannel": "latest",
   "plansDirectory": "./docs/plans",
+  "skipDangerousModePermissionPrompt": true,
   "teammateMode": "tmux"
 }
