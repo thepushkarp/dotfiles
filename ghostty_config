@@ -10,7 +10,7 @@ theme = light:Github Light Default,dark:Github Dark Default
 # ==============================================================================
 
 # Fixed font family with proper weight specification
-font-family = "Monaspace Krypton Var SemiWide Bold"
+font-family = "Monaspace Krypton"
 
 # Font size
 font-size = 14
@@ -33,16 +33,6 @@ window-padding-y = 4
 
 # Enable shell integration for zsh
 shell-integration = zsh
-
-# Basic shell integration features
-shell-integration-features = no-cursor
-
-# ==============================================================================
-# CURSOR CONFIGURATION
-# ==============================================================================
-
-# Cursor appearance
-cursor-style = block
 
 # ==============================================================================
 # CLIPBOARD & INTERACTION
@@ -70,7 +60,7 @@ working-directory = home
 keybind = shift+enter=text:\n
 
 # ==============================================================================
-# Updates
+# UPDATES
 # ==============================================================================
 auto-update = download
-auto-update-channel = tip
+auto-update-channel = stable

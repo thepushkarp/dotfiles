@@ -18,8 +18,14 @@ if [[ -n "$SSH_CONNECTION" && -z "$TMUX" ]]; then
   exec tmux
 fi
 
+# Only enable full prompt stack when shell has a real TTY.
+typeset -gi HAS_PROMPT_TTY=0
+if [[ -o interactive && -t 0 && -t 1 ]]; then
+  HAS_PROMPT_TTY=1
+fi
+
 # Enable Powerlevel10k instant prompt (must be near top)
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+if (( HAS_PROMPT_TTY )) && [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
@@ -49,8 +55,10 @@ fi
 source "${ZINIT[HOME_DIR]}/zinit.git/zinit.zsh"
 
 # Load Powerlevel10k theme first for instant prompt
-zinit ice depth=1
-zinit light romkatv/powerlevel10k
+if (( HAS_PROMPT_TTY )); then
+    zinit ice depth=1
+    zinit light romkatv/powerlevel10k
+fi
 
 # Define essential functions early
 function omz_urlencode() {
@@ -244,12 +252,14 @@ fi
 # Initialize tools directly
 
 # Atuin initialization
-if command -v atuin >/dev/null 2>&1; then
+if (( HAS_PROMPT_TTY )) && command -v atuin >/dev/null 2>&1; then
     eval "$(atuin init zsh)"
 fi
 
 # FZF integration (Ctrl+R history, Ctrl+T files, Alt+C dirs)
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if (( HAS_PROMPT_TTY )) && [[ -f ~/.fzf.zsh ]]; then
+    source ~/.fzf.zsh
+fi
 
 # Thefuck - lazy loaded (press ESC ESC after a mistake)
 fuck() {
@@ -268,7 +278,9 @@ ngrok() {
 }
 
 # Bun completions
-[[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
+if (( HAS_PROMPT_TTY )) && [[ -s "$HOME/.bun/_bun" ]]; then
+    source "$HOME/.bun/_bun"
+fi
 
 # ============================================================================
 # ALIASES
@@ -343,13 +355,15 @@ function zsh_profile() {
 # ============================================================================
 
 # Load p10k configuration
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+if (( HAS_PROMPT_TTY )) && [[ -f ~/.p10k.zsh ]]; then
+    source ~/.p10k.zsh
+fi
 
 # Clean up functions
 unset -f add_to_path
 
 # Zoxide initialization
-if command -v zoxide >/dev/null 2>&1; then
+if (( HAS_PROMPT_TTY )) && command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init zsh)"
     alias cd=z
 fi
@@ -361,7 +375,11 @@ export PATH="/Users/pupa/.antigravity/antigravity/bin:$PATH"
 export PATH=/Users/pupa/.opencode/bin:$PATH
 
 # bun completions
-[ -s "/Users/pupa/.bun/_bun" ] && source "/Users/pupa/.bun/_bun"
+if (( HAS_PROMPT_TTY )) && [[ -s "/Users/pupa/.bun/_bun" ]]; then
+    source "/Users/pupa/.bun/_bun"
+fi
+
+unset HAS_PROMPT_TTY
 
 # Performance profiling output (uncomment to see results)
 # zprof
