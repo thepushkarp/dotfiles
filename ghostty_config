@@ -63,4 +63,4 @@ keybind = shift+enter=text:\n
 # UPDATES
 # ==============================================================================
 auto-update = download
-auto-update-channel = stable
+auto-update-channel = tip
