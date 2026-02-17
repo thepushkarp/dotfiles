@@ -9,9 +9,8 @@
     "DISABLE_ERROR_REPORTING": "1",
     "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "sonnet[1m]",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "sonnet[1m]",
-    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet[1m]"
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "sonnet",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet"
   },
   "attribution": {
     "commit": "",
