@@ -12,7 +12,6 @@ steer = true
 personality = true
 multi_agent = true
 runtime_metrics = true
-multi_agent = true
 prevent_idle_sleep = true
 
 [agents]
