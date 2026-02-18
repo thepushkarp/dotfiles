@@ -9,15 +9,23 @@ personality = "pragmatic"
 unified_exec = true
 shell_snapshot = true
 steer = true
-apps = true
 personality = true
-collab = true
+multi_agent = true
 runtime_metrics = true
+multi_agent = true
+prevent_idle_sleep = true
+
+[agents]
+max_threads = 16
 
 [tui]
 notifications = true
 notification_method = "auto"
+status_line = ["model-with-reasoning", "current-dir", "git-branch", "context-used", "five-hour-limit", "weekly-limit", "codex-version", "session-id"]
 
-[mcp_servers.playwright]
-args = ["@playwright/mcp@latest"]
+[mcp_servers.context7]
 command = "npx"
+args = ["-y", "@upstash/context7-mcp"]
+
+[mcp_servers.exa]
+url = "https://mcp.exa.ai/mcp"
