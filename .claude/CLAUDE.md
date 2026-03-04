@@ -53,6 +53,7 @@ Global instructions applicable to all projects and interactions. Project-specifi
 - **Agent-native by default** - Design so agents can achieve any outcome users can. Tools are atomic primitives; features are outcomes described in prompts. Prefer file-based state for transparency and portability. When adding UI capability, ask: can an agent achieve this outcome too?
 - **Document everything** - Document all code, config, and decisions in the codebase, preferably in the `/docs` directory. Check existing documentation first to understand context and create/update relevant documentation in the codebase immediately. Document what exists vs. what's missing with concrete evidence and file paths.
 - **Parallelize work with consensus** - Spawn multiple agents to parallelize the work and win in efficiency where possible. Create 3-5 alternative implementation approaches using different agents/subagents/perspectives. Choose implementation plan based on consensus among generated alternatives.
+- **Commit often** - Commit often to the codebase when the codebase is in a good state and after each self-contained task is completed or after a significant change is made. Commit messages should be descriptive and include the changes made.
 
 ### Research & Investigation Protocol
 
