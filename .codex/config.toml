@@ -18,6 +18,7 @@ personality = true
 multi_agent = true
 runtime_metrics = true
 prevent_idle_sleep = true
+js_repl = true
 
 [agents]
 max_threads = 16
@@ -25,7 +26,7 @@ max_threads = 16
 [tui]
 notifications = true
 notification_method = "auto"
-status_line = ["model-with-reasoning", "current-dir", "git-branch", "context-used", "five-hour-limit", "weekly-limit", "codex-version", "session-id"]
+status_line = ["model-with-reasoning", "current-dir", "git-branch", "context-used", "five-hour-limit", "weekly-limit", "context-window-size"]
 
 [mcp_servers.context7]
 command = "npx"
@@ -33,3 +34,7 @@ args = ["-y", "@upstash/context7-mcp"]
 
 [mcp_servers.exa]
 url = "https://mcp.exa.ai/mcp"
+
+[mcp_servers.playwright]
+args = ["@playwright/mcp@latest"]
+command = "npx"
