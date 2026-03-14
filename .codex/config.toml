@@ -1,5 +1,5 @@
 model = "gpt-5.4"
-model_reasoning_effort = "xhigh"
+model_reasoning_effort = "high"
 model_supports_reasoning_summaries = true
 model_reasoning_summary = "detailed"
 hide_agent_reasoning = false
@@ -17,6 +17,7 @@ multi_agent = true
 runtime_metrics = true
 prevent_idle_sleep = true
 js_repl = true
+guardian_approval = true
 
 [agents]
 max_threads = 16
@@ -24,7 +25,7 @@ max_threads = 16
 [tui]
 notifications = true
 notification_method = "auto"
-status_line = ["model-with-reasoning", "current-dir", "git-branch", "context-used", "five-hour-limit", "weekly-limit", "context-window-size"]
+status_line = ["model-with-reasoning", "current-dir", "git-branch", "context-used", "five-hour-limit", "weekly-limit", "context-window-size", "fast-mode"]
 
 [mcp_servers.context7]
 command = "npx"
