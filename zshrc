@@ -14,8 +14,8 @@ setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
 
 # Auto-attach to tmux on SSH connections
-if [[ -n "$SSH_CONNECTION" && -z "$TMUX" ]]; then
-  exec tmux
+if [ -z "$TMUX" ] && [ -n "$SSH_CONNECTION" ]; then
+  exec tmux new -A -s main
 fi
 
 # Only enable full prompt stack when shell has a real TTY.
