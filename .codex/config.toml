@@ -8,16 +8,18 @@ personality = "pragmatic"
 suppress_unstable_features_warning = true
 
 [features]
-voice_transcription = true
-unified_exec = true
+codex_hooks = true
+guardian_approval = true
+js_repl = true
+multi_agent = true
+personality = true
+prevent_idle_sleep = true
+runtime_metrics = true
 shell_snapshot = true
 steer = true
-personality = true
-multi_agent = true
-runtime_metrics = true
-prevent_idle_sleep = true
-js_repl = true
-guardian_approval = true
+unified_exec = true
+voice_transcription = true
+tui_app_server = true
 
 [agents]
 max_threads = 16
