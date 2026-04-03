@@ -1,11 +1,15 @@
 model = "gpt-5.4"
-model_reasoning_effort = "high"
-model_supports_reasoning_summaries = true
+model_reasoning_effort = "medium"
 model_reasoning_summary = "detailed"
 hide_agent_reasoning = false
-show_raw_agent_reasoning = true
+model_supports_reasoning_summaries = true
 personality = "pragmatic"
+show_raw_agent_reasoning = true
 suppress_unstable_features_warning = true
+approvals_reviewer = "guardian_subagent"
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+service_tier = "fast"
 
 [features]
 codex_hooks = true
@@ -25,9 +29,18 @@ tui_app_server = true
 max_threads = 16
 
 [tui]
-notifications = true
 notification_method = "auto"
-status_line = ["model-with-reasoning", "current-dir", "git-branch", "context-used", "five-hour-limit", "weekly-limit", "context-window-size", "fast-mode"]
+notifications = true
+status_line = [
+    "model-with-reasoning",
+    "current-dir",
+    "git-branch",
+    "context-used",
+    "five-hour-limit",
+    "weekly-limit",
+    "context-window-size",
+    "fast-mode",
+]
 
 [mcp_servers.context7]
 command = "npx"
@@ -39,3 +52,7 @@ url = "https://mcp.exa.ai/mcp"
 [mcp_servers.playwright]
 args = ["@playwright/mcp@latest"]
 command = "npx"
+
+[sandbox_workspace_write]
+network_access = true
+
