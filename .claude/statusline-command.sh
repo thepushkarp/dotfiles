@@ -136,16 +136,24 @@ tok_part=" ${C_TOK}${tok_used}/${tok_total}${C_RESET}"
 
 # ── Rate limits (Pro/Max only, shown when > 0%) ──────────────────────────────
 rl_items=""
-if [ "${rate_5h:--1}" -gt 0 ] 2>/dev/null; then
-    c="$C_GREEN"
-    [ "$rate_5h" -ge 80 ] && c="$C_RED"
-    [ "$rate_5h" -ge 50 ] && [ "$rate_5h" -lt 80 ] && c="$C_YELLOW"
+if [ "${rate_5h:--1}" -ge 0 ] 2>/dev/null; then
+    if [ "$rate_5h" -ge 80 ]; then
+        c="$C_RED"
+    elif [ "$rate_5h" -ge 50 ]; then
+        c="$C_YELLOW"
+    else
+        c="$C_GREEN"
+    fi
     rl_items="${c}5h:${rate_5h}%${C_RESET}"
 fi
-if [ "${rate_7d:--1}" -gt 0 ] 2>/dev/null; then
-    c="$C_GREEN"
-    [ "$rate_7d" -ge 80 ] && c="$C_RED"
-    [ "$rate_7d" -ge 50 ] && [ "$rate_7d" -lt 80 ] && c="$C_YELLOW"
+if [ "${rate_7d:--1}" -ge 0 ] 2>/dev/null; then
+    if [ "$rate_7d" -ge 80 ]; then
+        c="$C_RED"
+    elif [ "$rate_7d" -ge 50 ]; then
+        c="$C_YELLOW"
+    else
+        c="$C_GREEN"
+    fi
     [ -n "$rl_items" ] && rl_items="${rl_items} "
     rl_items="${rl_items}${c}7d:${rate_7d}%${C_RESET}"
 fi
