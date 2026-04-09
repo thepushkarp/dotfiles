@@ -1,19 +1,46 @@
 #!/bin/bash
-# Claude Code Statusline - Two-line layout with context bar, cost, and git caching
+# Claude Code Statusline - Two-line layout with context bar, tokens, git, and rate limits
 
 input=$(cat)
 
-# ── Extract fields ──────────────────────────────────────────────────────────
-model=$(echo "$input" | jq -r '.model.display_name // "?"')
-dir=$(echo "$input" | jq -r '.workspace.current_dir // "~"')
-dir_name=$(basename "$dir")
-pct=$(echo "$input" | jq -r '.context_window.used_percentage // 0' | cut -d. -f1)
-duration_ms=$(echo "$input" | jq -r '.cost.total_duration_ms // 0')
-lines_add=$(echo "$input" | jq -r '.cost.total_lines_added // 0')
-lines_rm=$(echo "$input" | jq -r '.cost.total_lines_removed // 0')
-style=$(echo "$input" | jq -r '.output_style.name // empty')
+# ── Human-readable token formatter (pure bash, no subprocesses) ───────────────
+human_num() {
+    local n=$1
+    if [ "$n" -ge 1000000 ] 2>/dev/null; then
+        local m=$((n / 1000000))
+        local r=$(( (n % 1000000) / 100000 ))
+        [ "$r" -gt 0 ] && echo "${m}.${r}M" || echo "${m}M"
+    elif [ "$n" -ge 1000 ] 2>/dev/null; then
+        local k=$((n / 1000))
+        local r=$(( (n % 1000) / 100 ))
+        [ "$r" -gt 0 ] && echo "${k}.${r}k" || echo "${k}k"
+    else
+        echo "${n:-0}"
+    fi
+}
 
-# ── Colors ──────────────────────────────────────────────────────────────────
+# ── Extract all fields in one jq call ─────────────────────────────────────────
+IFS=$'\t' read -r model dir pct ctx_size used_tokens \
+    duration_ms lines_add lines_rm style rate_5h rate_7d \
+    <<< "$(echo "$input" | jq -r '[
+        (.model.display_name // "?"),
+        (.workspace.current_dir // "~"),
+        ((.context_window.used_percentage // 0) | floor),
+        (.context_window.context_window_size // 0),
+        ((.context_window.current_usage.input_tokens // 0) +
+         (.context_window.current_usage.cache_creation_input_tokens // 0) +
+         (.context_window.current_usage.cache_read_input_tokens // 0)),
+        (.cost.total_duration_ms // 0),
+        (.cost.total_lines_added // 0),
+        (.cost.total_lines_removed // 0),
+        (.output_style.name // ""),
+        ((.rate_limits.five_hour.used_percentage // -1) | floor),
+        ((.rate_limits.seven_day.used_percentage // -1) | floor)
+    ] | @tsv')"
+
+dir_name="${dir##*/}"
+
+# ── Colors ────────────────────────────────────────────────────────────────────
 C_DIR="\033[38;5;51m"
 C_MODEL="\033[38;5;105m"
 C_STYLE="\033[38;5;243m"
@@ -23,6 +50,7 @@ C_RED="\033[38;5;203m"
 C_LINES_ADD="\033[38;5;154m"
 C_LINES_RM="\033[38;5;203m"
 C_DUR="\033[38;5;245m"
+C_TOK="\033[38;5;243m"
 C_GIT_CLEAN="\033[38;5;154m"
 C_GIT_DIRTY="\033[38;5;222m"
 C_SEP="\033[38;5;239m"
@@ -30,7 +58,7 @@ C_RESET="\033[0m"
 
 sep="${C_SEP} · ${C_RESET}"
 
-# ── Git info (cached, 5s TTL) ──────────────────────────────────────────────
+# ── Git info (cached, 5s TTL) ─────────────────────────────────────────────────
 CACHE_FILE="/tmp/claude-statusline-git-cache"
 CACHE_DIR_FILE="/tmp/claude-statusline-git-cache-dir"
 CACHE_MAX_AGE=5
@@ -47,7 +75,7 @@ if cache_stale; then
         untracked=$(git -C "$dir" --no-optional-locks ls-files --others --exclude-standard 2>/dev/null | wc -l | tr -d ' ')
         staged=$(git -C "$dir" --no-optional-locks diff --cached --numstat 2>/dev/null | wc -l | tr -d ' ')
         modified=$(git -C "$dir" --no-optional-locks diff --numstat 2>/dev/null | wc -l | tr -d ' ')
-        ab=$(git -C "$dir" --no-optional-locks rev-list --left-right --count @{upstream}...HEAD 2>/dev/null || echo "0 0")
+        ab=$(git -C "$dir" --no-optional-locks rev-list --left-right --count '@{upstream}...HEAD' 2>/dev/null || echo "0	0")
         behind=$(echo "$ab" | awk '{print $1}')
         ahead=$(echo "$ab" | awk '{print $2}')
         echo "${branch}|${untracked}|${staged}|${modified}|${ahead}|${behind}" > "$CACHE_FILE"
@@ -71,7 +99,7 @@ if [ -n "$branch" ]; then
     git_part="${sep}${git_color}${branch}${C_RESET}"
 fi
 
-# ── Format duration ─────────────────────────────────────────────────────────
+# ── Format duration ───────────────────────────────────────────────────────────
 if [ "$duration_ms" -gt 0 ] 2>/dev/null; then
     secs=$((duration_ms / 1000))
     if [ $secs -ge 3600 ]; then
@@ -85,7 +113,7 @@ else
     dur="0s"
 fi
 
-# ── Context bar (10 chars, color by threshold) ──────────────────────────────
+# ── Context bar (10 chars, color by threshold) ────────────────────────────────
 [ -z "$pct" ] || [ "$pct" = "null" ] && pct=0
 if [ "$pct" -ge 90 ] 2>/dev/null; then
     bar_color="$C_RED"
@@ -101,15 +129,38 @@ bar=""
 [ "$filled" -gt 0 ] && bar=$(printf "%${filled}s" | tr ' ' '▓')
 [ "$empty" -gt 0 ] && bar="${bar}$(printf "%${empty}s" | tr ' ' '░')"
 
-# ── Style tag ───────────────────────────────────────────────────────────────
+# ── Token count ───────────────────────────────────────────────────────────────
+tok_used=$(human_num "${used_tokens:-0}")
+tok_total=$(human_num "${ctx_size:-0}")
+tok_part=" ${C_TOK}${tok_used}/${tok_total}${C_RESET}"
+
+# ── Rate limits (Pro/Max only, shown when > 0%) ──────────────────────────────
+rl_items=""
+if [ "${rate_5h:--1}" -gt 0 ] 2>/dev/null; then
+    c="$C_GREEN"
+    [ "$rate_5h" -ge 80 ] && c="$C_RED"
+    [ "$rate_5h" -ge 50 ] && [ "$rate_5h" -lt 80 ] && c="$C_YELLOW"
+    rl_items="${c}5h:${rate_5h}%${C_RESET}"
+fi
+if [ "${rate_7d:--1}" -gt 0 ] 2>/dev/null; then
+    c="$C_GREEN"
+    [ "$rate_7d" -ge 80 ] && c="$C_RED"
+    [ "$rate_7d" -ge 50 ] && [ "$rate_7d" -lt 80 ] && c="$C_YELLOW"
+    [ -n "$rl_items" ] && rl_items="${rl_items} "
+    rl_items="${rl_items}${c}7d:${rate_7d}%${C_RESET}"
+fi
+rate_part=""
+[ -n "$rl_items" ] && rate_part="${sep}${rl_items}"
+
+# ── Style tag ─────────────────────────────────────────────────────────────────
 style_part=""
 [ -n "$style" ] && [ "$style" != "null" ] && [ "$style" != "default" ] && \
     style_part="${sep}${C_STYLE}${style}${C_RESET}"
 
-# ── Output ──────────────────────────────────────────────────────────────────
+# ── Output ────────────────────────────────────────────────────────────────────
 # Line 1: workspace context
 printf "%b" "${C_DIR}${dir_name}/${C_RESET}${git_part}${sep}${C_MODEL}${model}${C_RESET}${style_part}"
 echo ""
-# Line 2: session metrics
-printf "%b" "${bar_color}${bar}${C_RESET} ${pct}%${sep}${C_LINES_ADD}+${lines_add}${C_RESET}/${C_LINES_RM}-${lines_rm}${C_RESET}${sep}${C_DUR}${dur}${C_RESET}"
+# Line 2: session metrics with token count and rate limits
+printf "%b" "${bar_color}${bar}${C_RESET} ${pct}%${tok_part}${sep}${C_LINES_ADD}+${lines_add}${C_RESET}/${C_LINES_RM}-${lines_rm}${C_RESET}${sep}${C_DUR}${dur}${C_RESET}${rate_part}"
 echo ""
