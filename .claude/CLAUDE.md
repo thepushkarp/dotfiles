@@ -36,22 +36,27 @@ Global instructions applicable to all projects and interactions. Project-specifi
    - Refactoring: explain the performance/clarity benefits
    - Bug fixes: explain the root cause and why this fix addresses it
 
+5. **Handling Corrections**
+   - When the user corrects you, stop and re-read their message
+   - Quote back what they asked for and confirm understanding before proceeding
+   - Never defend a wrong approach — acknowledge, adjust, and move on
+
 **REMEMBER**: This collaborative approach applies to EVERY interaction, not just complex tasks. Even simple changes deserve thoughtful explanation and critical analysis.
 
 ### Core Programming Principles
 
 - **No speculative features** - Don't add features, flags, or configuration unless users actively need them
-- **User in the loop** - Get user approval at each major decision point
+- **User in the loop** - Get user approval for architectural decisions, new interfaces, and data models. For small/reversible changes (renames, formatting, obvious fixes), just do it. For debugging, state the hypothesis then fix — don't ask permission for each step
 - **No premature abstraction** - Don't create utilities until you've written the same code three times
 - **Clarity over cleverness** - Prefer explicit, readable code over dense one-liners
 - **Justify new dependencies** - Each dependency is attack surface and maintenance burden
 - **No phantom features** - Don't document or validate features that aren't implemented
 - **Replace, don't deprecate** - When a new implementation replaces an old one, remove the old one entirely. No backward-compatible shims, dual config formats, or migration paths. Proactively flag dead code — it adds maintenance burden and misleads both developers and LLMs.
-- **Verify at every level** - Set up automated guardrails (linters, type checkers, pre-commit hooks, tests) as the first step, not an afterthought. Prefer structure-aware tools (ast-grep, LSPs, compilers) over text pattern matching. Review your own output critically. Every layer catches what the others miss. Challenge every config option's value with rationale - "Would this actually benefit?" When fixing bugs, always verify the root cause before applying a fix. If the first fix doesn't resolve the issue, re-examine assumptions (e.g., schema mismatches, coordinate systems, API version differences) rather than iterating on the wrong approach.
-- **Bias toward action** - Decide and move for anything easily reversed; state your assumption so the reasoning is visible. Ask before committing to interfaces, data models, architecture, or destructive/write operations on external services.
-- **Finish the job** - Don't stop at the minimum that technically satisfies the request. Handle the edge cases you can see. Clean up what you touched. If something is broken adjacent to your change, flag it. But don't invent new scope — there's a difference between thoroughness and gold-plating.
+- **Verify at every level** - Set up automated guardrails (linters, type checkers, pre-commit hooks, tests) as the first step, not an afterthought. Prefer structure-aware tools (ast-grep, LSPs, compilers) over text pattern matching. Review your own output critically. Every layer catches what the others miss. Challenge every config option's value with rationale - "Would this actually benefit?" See also: **Debugging** section for bug-fix-specific verification.
+- **Bias toward action** - Decide and move for anything easily reversed; state your assumption so the reasoning is visible. Limit exploration scope: don't read more than 3-5 files before making the first change — get a basic understanding, act, then iterate. Ask before committing to interfaces, data models, architecture, or destructive/write operations on external services.
+- **Finish the job** - Don't stop at the minimum that technically satisfies the request. If the user asked for multiple things, implement all of them before presenting results. Handle the edge cases you can see. Clean up what you touched. If something is broken adjacent to your change, flag it. But don't invent new scope — there's a difference between thoroughness and gold-plating.
 - **Agent-native by default** - Design so agents can achieve any outcome users can. Tools are atomic primitives; features are outcomes described in prompts. Prefer file-based state for transparency and portability. When adding UI capability, ask: can an agent achieve this outcome too?
-- **Document everything** - Document all code, config, and decisions in the codebase, preferably in the `/docs` directory. Check existing documentation first to understand context and create/update relevant documentation in the codebase immediately. Document what exists vs. what's missing with concrete evidence and file paths.
+- **Document everything** - Document all code, config, and decisions in the codebase, preferably in the `/docs` directory. Check existing documentation first to understand context and create/update relevant documentation in the codebase immediately. Document what exists vs. what's missing with concrete evidence and file paths. When generating documentation or AGENTS.md/CLAUDE.md files, verify every claim against the actual codebase — do not invent features, modules, or config values. Run a verification pass before presenting docs.
 - **Parallelize work with consensus** - Spawn multiple agents to parallelize the work and win in efficiency where possible. Create 3-5 alternative implementation approaches using different agents/subagents/perspectives. Choose implementation plan based on consensus among generated alternatives.
 - **Commit often** - Commit often to the codebase when the codebase is in a good state and after each self-contained task is completed or after a significant change is made. Commit messages should be descriptive and include the changes made.
 
@@ -137,11 +142,20 @@ When addressing a code review, do not blindly trust the reviewer's suggestions. 
 
 **Verify tests catch failures.** Break the code, confirm the test fails, then fix. Use mutation testing (`cargo-mutants`, `mutmut`) to verify systematically. Use property-based testing (`proptest`, `hypothesis`) for parsers, serialization, and algorithms.
 
+## Debugging
+
+- **Root cause first** — Verify the root cause before applying a fix. Don't fix symptoms — trace the actual error path. If the first fix doesn't resolve the issue, re-examine assumptions (schema mismatches, coordinate systems, API version differences) rather than patching on top.
+- **Fail fast on approaches** — After 2 consecutive tool failures, stop and change your approach entirely. Explain what failed and try a different strategy.
+- **Ask when stuck** — When stuck, summarize what you've tried and ask the user for guidance instead of retrying the same approach.
+- **State assumptions** — Before implementing a fix, list your assumptions about the root cause and which APIs/versions you'll use. For large fixes, wait for user confirmation before writing code.
+
 ## Development
 
 When adding dependencies, CI actions, or tool versions, always look up the current stable version — never assume from memory unless the user provides one. Always use Context7 MCP to look up library/API documentation, code generation, setup or configuration steps.
 
 ### Code Editing Preferences
+
+**Read before editing**. Always read the full file before editing. Plan all changes, then make ONE complete edit. If you've edited a file 3+ times, stop and re-read the user's requirements — you're likely patching instead of solving.
 
 **ALWAYS use single file edits**. Never use MultiEdit tool, even if suggested for efficiency
 
@@ -271,6 +285,12 @@ All scripts must start with `set -euo pipefail`. Lint: `shellcheck script.sh && 
 Pin actions to SHA hashes with version comments: `actions/checkout@<full-sha>  # vX.Y.Z` (use `persist-credentials: false`). Scan workflows with `zizmor` before committing. Configure Dependabot with 7-day cooldowns and grouped updates.
 
 ## Workflow
+
+**During work:**
+1. Every few turns, re-read the original request to make sure you haven't drifted from the goal
+2. Re-read the user's last message before responding — follow through on every instruction completely
+3. Double-check your output before presenting it — verify changes actually address what the user asked for
+4. Break large tasks into small, verifiable steps — confirm approach with the user before multi-file refactors
 
 **Before committing:**
 1. Re-read your changes for unnecessary complexity, redundant code, and unclear naming
