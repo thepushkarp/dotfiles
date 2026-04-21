@@ -1,19 +1,20 @@
-model = "gpt-5.4"
-model_reasoning_effort = "xhigh"
-model_reasoning_summary = "detailed"
-hide_agent_reasoning = false
-model_supports_reasoning_summaries = true
-personality = "pragmatic"
-show_raw_agent_reasoning = true
-suppress_unstable_features_warning = true
-approvals_reviewer = "guardian_subagent"
 approval_policy = "on-request"
+approvals_reviewer = "guardian_subagent"
+hide_agent_reasoning = false
+model = "gpt-5.4"
+model_reasoning_effort = "high"
+model_reasoning_summary = "detailed"
+model_supports_reasoning_summaries = true
+personality = "friendly"
 sandbox_mode = "workspace-write"
 service_tier = "fast"
+show_raw_agent_reasoning = true
+suppress_unstable_features_warning = true
 
 [features]
 codex_hooks = true
 guardian_approval = true
+image_detail_original = true
 js_repl = true
 multi_agent = true
 personality = true
@@ -21,9 +22,11 @@ prevent_idle_sleep = true
 runtime_metrics = true
 shell_snapshot = true
 steer = true
+tui_app_server = true
 unified_exec = true
 voice_transcription = true
-tui_app_server = true
+memories = true
+external_migration = true
 
 [agents]
 max_threads = 16
@@ -42,6 +45,9 @@ status_line = [
     "fast-mode",
 ]
 
+[memories]
+no_memories_if_mcp_or_web_search = true
+
 [mcp_servers.context7]
 command = "npx"
 args = ["-y", "@upstash/context7-mcp"]
@@ -55,4 +61,7 @@ command = "npx"
 
 [sandbox_workspace_write]
 network_access = true
+
+[shell_environment_policy]
+inherit = "core"
 
