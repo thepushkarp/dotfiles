@@ -12,10 +12,12 @@ show_raw_agent_reasoning = true
 suppress_unstable_features_warning = true
 
 [features]
-codex_hooks = true
+hooks = true
+external_migration = true
 guardian_approval = true
 image_detail_original = true
 js_repl = true
+memories = true
 multi_agent = true
 personality = true
 prevent_idle_sleep = true
@@ -25,8 +27,10 @@ steer = true
 tui_app_server = true
 unified_exec = true
 voice_transcription = true
-memories = true
-external_migration = true
+chronicle = false
+terminal_resize_reflow = true
+goals = true
+remote_connections = true
 
 [agents]
 max_threads = 16
