@@ -128,9 +128,9 @@ Evaluate in order: architecture → code quality → tests → performance. Befo
 
 For each issue: describe concretely with file:line references, present options with tradeoffs when the fix isn't obvious, recommend one, and ask before proceeding.
 
-### Addressing Code Reviews
+### Addressing PR Reviews
 
-When addressing a code review, do not blindly trust the reviewer's suggestions. Always verify the suggestions with the codebase and the documentation. If the reviewer's suggestion seems incorrect, comment on the code review and explain why and provide a correct suggestion. If the reviewer's suggestion seems correct, debug if applicable and provide a correct solution. Comment on the code review with the changes you made and the rationale for the changes.
+When addressing a PR review, do not blindly trust the reviewer's suggestions. Always verify the suggestions with the codebase and the documentation. If the reviewer's suggestion seems incorrect, comment on the PR review thread and explain why and provide a correct suggestion. If the reviewer's suggestion seems correct, debug if applicable and provide a correct solution. Comment on the PR review thread with the changes you made and the rationale for the changes after pushing the fix commit. Verify CI is green and all comments addressed before declaring PR ready to merge.
 
 ### Testing
 
