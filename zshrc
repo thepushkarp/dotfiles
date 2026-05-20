@@ -114,6 +114,34 @@ zinit wait lucid for \
 export EDITOR='cursor'
 export VISUAL='cursor'
 
+# Load selected API keys from ~/.env without executing the file.
+function load_selected_env_values() {
+    local env_file="$1"
+    shift
+
+    [[ -f "$env_file" ]] || return 0
+
+    local key name value matched_value
+    for key in "$@"; do
+        matched_value=""
+        while IFS='=' read -r name value; do
+            name="${name#export }"
+            [[ "$name" == "$key" ]] || continue
+            matched_value="$value"
+        done < "$env_file"
+
+        [[ -n "$matched_value" ]] || continue
+        matched_value="${matched_value%$'\\r'}"
+        matched_value="${matched_value%\"}"
+        matched_value="${matched_value#\"}"
+        matched_value="${matched_value%\'}"
+        matched_value="${matched_value#\'}"
+        export "$key=$matched_value"
+    done
+}
+
+load_selected_env_values "$HOME/.env" API_KEY
+
 # History configuration
 export HISTSIZE=50000
 export SAVEHIST=10000
