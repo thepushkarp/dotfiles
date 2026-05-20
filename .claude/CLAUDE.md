@@ -2,8 +2,46 @@
 
 Global instructions applicable to all projects and interactions. Project-specific instructions override these defaults.
 
-- Prefer Exa AI (`mcp__exa__web_search_exa`) over `WebSearch`, `web_search`, `websearch` or any other web search tools for all web searches
 - Use skills proactively when they match the task — suggest relevant ones, don't block on them
+
+## Search Options
+
+Use the most source-native search or fetch tool first. Health-check the preferred tool with
+a small query if availability matters for the task.
+
+Available search APIs (use the exact tool names below):
+- Parallel Search: best default for factual, current, research, comparison, and
+  troubleshooting queries. Use `mcp__parallel-search__web_search` first; use
+  `mcp__parallel-search__web_fetch` only when excerpts are insufficient or exact wording is
+  needed.
+- Brave Search: strong default for general web search, and the primary tool for specialized
+  image, news, video, local, and place lookups. Use `mcp__brave-search__brave_web_search`
+  for general queries, and the specialized tools for images (`brave_image_search`), news
+  (`brave_news_search`), video (`brave_video_search`), local (`brave_local_search`), and
+  place (`brave_place_search`) searches. Use `brave_llm_context` for RAG-style content
+  extraction across multiple results.
+- Exa AI: prefer over Parallel/Brave when funded — stronger for semantic and neural-style
+  search. Use `mcp__claude_ai_Exa__web_search_exa` for search and
+  `mcp__claude_ai_Exa__web_fetch_exa` for full pages.
+- Firecrawl: prefer over Parallel/Brave when credits are available and the task needs
+  scraping, crawling, site maps, structured extraction, or browser-like page workflows.
+  Use `mcp__firecrawl__firecrawl_search` for search; if it succeeds, submit
+  `mcp__firecrawl__firecrawl_search_feedback` within ~2 minutes after using the results.
+
+Native and system fallbacks:
+- Use built-in web search and fetch tools (`WebSearch` / `WebFetch`, or the lowercase
+  `web_search` / `web_fetch` equivalents depending on the agent runtime) as default system
+  fallbacks when the preferred search MCP is unavailable, credit limited, rate limited, or
+  missing from the active tool list.
+- Use connector-native search/fetch before web search for private or app-specific sources:
+  GitHub, Gmail, Google Calendar, Google Contacts, Google Drive, and MCP resources.
+- Use Context7 (`mcp__claude_ai_Context7__resolve-library-id` →
+  `mcp__claude_ai_Context7__query-docs`) before web search for library, framework, SDK,
+  API, CLI, or cloud-service documentation when Context7 is available.
+
+If a search API returns a credit, payment, quota, or rate-limit error, do not retry-loop.
+Switch to another available search API that fits the task. Mention the fallback only when
+the error affects source quality, freshness, completeness, or the user's requested tool.
 
 ## Philosophy
 
