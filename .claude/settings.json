@@ -119,7 +119,8 @@
     "firecrawl@claude-plugins-official": true,
     "remember@claude-plugins-official": true,
     "huggingface-skills@claude-plugins-official": true,
-    "atomic-agents@claude-plugins-official": true
+    "atomic-agents@claude-plugins-official": true,
+    "vercel@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {
@@ -140,6 +141,9 @@
   "autoUpdatesChannel": "latest",
   "plansDirectory": "./docs/plans",
   "skipDangerousModePermissionPrompt": true,
-  "voiceEnabled": true,
-  "teammateMode": "tmux"
+  "theme": "auto",
+  "teammateMode": "tmux",
+  "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true,
+  "voiceEnabled": true
 }

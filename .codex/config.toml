@@ -1,13 +1,12 @@
-approval_policy = "on-request"
-approvals_reviewer = "guardian_subagent"
+approval_policy = "never"
+approvals_reviewer = "user"
 hide_agent_reasoning = false
-model = "gpt-5.4"
+model = "gpt-5.5"
 model_reasoning_effort = "high"
 model_reasoning_summary = "detailed"
 model_supports_reasoning_summaries = true
 personality = "friendly"
-sandbox_mode = "workspace-write"
-service_tier = "fast"
+sandbox_mode = "danger-full-access"
 show_raw_agent_reasoning = true
 suppress_unstable_features_warning = true
 
@@ -31,6 +30,9 @@ chronicle = false
 terminal_resize_reflow = true
 goals = true
 remote_connections = true
+code_mode = true
+code_mode_only = true
+mentions_v2 = true
 
 [agents]
 max_threads = 16
@@ -49,22 +51,11 @@ status_line = [
     "fast-mode",
 ]
 
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+
 [memories]
 no_memories_if_mcp_or_web_search = true
-
-[mcp_servers.context7]
-command = "npx"
-args = ["-y", "@upstash/context7-mcp"]
-
-[mcp_servers.exa]
-url = "https://mcp.exa.ai/mcp"
-
-[mcp_servers.playwright]
-args = ["@playwright/mcp@latest"]
-command = "npx"
-
-[sandbox_workspace_write]
-network_access = true
 
 [shell_environment_policy]
 inherit = "core"
