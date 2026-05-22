@@ -9,39 +9,24 @@ Global instructions applicable to all projects and interactions. Project-specifi
 Use the most source-native search or fetch tool first. Health-check the preferred tool with
 a small query if availability matters for the task.
 
-Available search APIs (use the exact tool names below):
-- Parallel Search: best default for factual, current, research, comparison, and
-  troubleshooting queries. Use `mcp__parallel-search__web_search` first; use
-  `mcp__parallel-search__web_fetch` only when excerpts are insufficient or exact wording is
-  needed.
-- Brave Search: strong default for general web search, and the primary tool for specialized
-  image, news, video, local, and place lookups. Use `mcp__brave-search__brave_web_search`
-  for general queries, and the specialized tools for images (`brave_image_search`), news
-  (`brave_news_search`), video (`brave_video_search`), local (`brave_local_search`), and
-  place (`brave_place_search`) searches. Use `brave_llm_context` for RAG-style content
-  extraction across multiple results.
-- Exa AI: prefer over Parallel/Brave when funded — stronger for semantic and neural-style
-  search. Use `mcp__claude_ai_Exa__web_search_exa` for search and
-  `mcp__claude_ai_Exa__web_fetch_exa` for full pages.
-- Firecrawl: prefer over Parallel/Brave when credits are available and the task needs
-  scraping, crawling, site maps, structured extraction, or browser-like page workflows.
-  Use `mcp__firecrawl__firecrawl_search` for search; if it succeeds, submit
-  `mcp__firecrawl__firecrawl_search_feedback` within ~2 minutes after using the results.
+Naming conventions per agent:
+- Claude Code uses hyphens in MCP server segments (`mcp__parallel-search__...`,
+  `mcp__brave-search__...`) and prefixes claude.ai connectors with `claude_ai_`
+  (`mcp__claude_ai_Exa__...`, `mcp__claude_ai_Context7__...`). Some function names keep hyphens
+  (e.g. `resolve-library-id`). Native `WebSearch` / `WebFetch` available.
+- Codex uses underscores throughout server segments and function names
+  (`mcp__parallel_search__...`, `mcp__exa__...`, `mcp__context7__resolve_library_id`). No
+  native web search/fetch — every capability is MCP.
 
-Native and system fallbacks:
-- Use built-in web search and fetch tools (`WebSearch` / `WebFetch`, or the lowercase
-  `web_search` / `web_fetch` equivalents depending on the agent runtime) as default system
-  fallbacks when the preferred search MCP is unavailable, credit limited, rate limited, or
-  missing from the active tool list.
-- Use connector-native search/fetch before web search for private or app-specific sources:
-  GitHub, Gmail, Google Calendar, Google Contacts, Google Drive, and MCP resources.
-- Use Context7 (`mcp__claude_ai_Context7__resolve-library-id` →
-  `mcp__claude_ai_Context7__query-docs`) before web search for library, framework, SDK,
-  API, CLI, or cloud-service documentation when Context7 is available.
+Tool selection (which service to reach for):
+- **Exa AI**: Best default for semantic and neural-style search.
+- **Parallel Search**: Best default for factual, current, research, comparison, and troubleshooting queries. Search first; fetch only when excerpts are insufficient or exact wording is needed.
+- **Brave Search**: Strong default for general web search; primary for specialized image, news, video, local, and place lookups.
+- **Firecrawl**: Prefer when the task needs scraping, crawling, site maps, structured extraction, or browser-like page workflows.
+- **Context7**: Use before web search for library, framework, SDK, API, CLI, or cloud-service documentation when available.
+- **Connector-native first**: For private/app-specific sources (GitHub, Gmail, Google Calendar, Google Contacts, Google Drive, MCP resources), use the connector's own search/fetch before web search.
 
-If a search API returns a credit, payment, quota, or rate-limit error, do not retry-loop.
-Switch to another available search API that fits the task. Mention the fallback only when
-the error affects source quality, freshness, completeness, or the user's requested tool.
+If a search API returns a credit, payment, quota, or rate-limit error, do not retry-loop. Switch to another available search API that fits the task. Mention the fallback only when the error affects source quality, freshness, completeness, or the user's requested tool.
 
 ## Philosophy
 
@@ -302,7 +287,7 @@ allow_attributes = "deny"
 # Code hygiene
 dbg_macro = "deny"
 todo = "deny"
-print_stdout = "deny"
+print_stdout = "deny"s
 print_stderr = "deny"
 # Safety
 await_holding_lock = "deny"
