@@ -171,6 +171,7 @@ add_to_path "/opt/homebrew/sbin"
 # Development tool paths
 typeset -a dev_paths=(
     "$HOME/.local/bin"
+    "$HOME/.cargo/bin"
     "$HOME/.bun/bin"
     "$HOME/.yarn/bin"
     "$HOME/.config/yarn/global/node_modules/.bin"
@@ -226,8 +227,8 @@ if [[ -d "/opt/homebrew/opt/openssl@3" ]]; then
 fi
 
 # Docker completions (only if Docker is installed)
-if [[ -d "/Users/pupa/.docker/completions" ]]; then
-    fpath=(/Users/pupa/.docker/completions $fpath)
+if [[ -d "$HOME/.docker/completions" ]]; then
+    fpath=("$HOME/.docker/completions" $fpath)
 fi
 
 # Ollama configuration
@@ -397,15 +398,10 @@ if (( HAS_PROMPT_TTY )) && command -v zoxide >/dev/null 2>&1; then
 fi
 
 # Added by Antigravity
-export PATH="/Users/pupa/.antigravity/antigravity/bin:$PATH"
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 
 # opencode
-export PATH=/Users/pupa/.opencode/bin:$PATH
-
-# bun completions
-if (( HAS_PROMPT_TTY )) && [[ -s "/Users/pupa/.bun/_bun" ]]; then
-    source "/Users/pupa/.bun/_bun"
-fi
+export PATH="$HOME/.opencode/bin:$PATH"
 
 unset HAS_PROMPT_TTY
 

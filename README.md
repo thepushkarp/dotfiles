@@ -7,6 +7,7 @@ Personal configuration files for shell, git, terminal, tmux, and Claude Code.
 | File | Description |
 |------|-------------|
 | `zshrc` | Zsh configuration with Zinit, lazy loading, aliases |
+| `zshenv` | Minimal Zsh environment setup |
 | `p10k.zsh` | Powerlevel10k prompt theme |
 | `tmux.conf` | Tmux configuration with Catppuccin Mocha theme, vim-style bindings, TPM plugins |
 | `gitconfig` | Git configuration with aliases and signing (add your own `[user]` section) |
@@ -25,6 +26,7 @@ git clone https://github.com/thepushkarp/dotfiles ~/dotfiles
 
 # Symlink configs
 ln -sf ~/dotfiles/zshrc ~/.zshrc
+ln -sf ~/dotfiles/zshenv ~/.zshenv
 ln -sf ~/dotfiles/p10k.zsh ~/.p10k.zsh
 ln -sf ~/dotfiles/tmux.conf ~/.tmux.conf
 ln -sf ~/dotfiles/gitconfig ~/.gitconfig
