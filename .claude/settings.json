@@ -10,10 +10,9 @@
     "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
     "CLAUDE_CODE_NO_FLICKER": "1",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-4-6",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-4-6",
-    "CLAUDE_CODE_SUBAGENT_MODEL": "claude-sonnet-4-6",
-    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": 500000
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5",
+    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "500000"
   },
   "attribution": {
     "commit": "",
@@ -94,13 +93,15 @@
       }
     ]
   },
+  "worktree": {
+    "baseRef": "fresh"
+  },
   "statusLine": {
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
     "handoff@handoff": true,
-    "cc-gemini-plugin@cc-gemini-plugin": true,
     "code-review@claude-plugins-official": true,
     "feature-dev@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
@@ -122,28 +123,15 @@
     "atomic-agents@claude-plugins-official": true,
     "vercel@claude-plugins-official": true
   },
-  "extraKnownMarketplaces": {
-    "openai-codex": {
-      "source": {
-        "source": "github",
-        "repo": "openai/codex-plugin-cc"
-      }
-    },
-    "cc-gemini-plugin": {
-      "source": {
-        "source": "github",
-        "repo": "thepushkarp/cc-gemini-plugin"
-      }
-    }
-  },
   "alwaysThinkingEnabled": true,
   "effortLevel": "xhigh",
   "autoUpdatesChannel": "latest",
   "plansDirectory": "./docs/plans",
   "skipDangerousModePermissionPrompt": true,
   "theme": "auto",
-  "teammateMode": "tmux",
+  "teammateMode": "auto",
   "remoteControlAtStartup": true,
+  "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
   "voiceEnabled": true
 }

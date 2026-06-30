@@ -1,4 +1,4 @@
-approval_policy = "never"
+approval_policy = "on-request"
 approvals_reviewer = "user"
 hide_agent_reasoning = false
 model = "gpt-5.5"
@@ -10,12 +10,14 @@ sandbox_mode = "danger-full-access"
 show_raw_agent_reasoning = true
 suppress_unstable_features_warning = true
 
+service_tier = "default"
+
 [features]
 hooks = true
 external_migration = true
 guardian_approval = true
 image_detail_original = true
-js_repl = true
+js_repl = false
 memories = true
 multi_agent = true
 personality = true
@@ -42,14 +44,21 @@ notification_method = "auto"
 notifications = true
 status_line = [
     "model-with-reasoning",
-    "current-dir",
+    "project-name",
     "git-branch",
-    "context-used",
+    "branch-changes",
+    "pull-request-number",
+    "task-progress",
+    "context-remaining",
+    "approval-mode",
+    "permissions",
+    "run-state",
     "five-hour-limit",
     "weekly-limit",
-    "context-window-size",
-    "fast-mode",
 ]
+status_line_use_colors = true
+pet = "disabled"
+terminal_title = ["activity", "project-name", "run-state"]
 
 [tui.model_availability_nux]
 "gpt-5.5" = 4
@@ -59,4 +68,3 @@ no_memories_if_mcp_or_web_search = true
 
 [shell_environment_policy]
 inherit = "core"
-
