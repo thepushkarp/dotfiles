@@ -228,7 +228,7 @@ fi
 
 # Docker completions (only if Docker is installed)
 if [[ -d "$HOME/.docker/completions" ]]; then
-    fpath=("$HOME/.docker/completions" $fpath)
+    fpath=($HOME/.docker/completions $fpath)
 fi
 
 # Ollama configuration
@@ -345,6 +345,9 @@ fi
 alias zsh-bench="for i in {1..10}; do /usr/bin/time zsh -i -c exit; done"
 alias zsh-prof="zsh -i -c 'zprof | head -20'"
 
+# Update Aliases
+alias update-agents="claude upgrade && brew upgrade codex && opencode upgrade && hermes update -y && pi update"
+
 # ============================================================================
 # FUNCTIONS
 # ============================================================================
@@ -381,7 +384,7 @@ function zsh_profile() {
 
 # ============================================================================
 # FINAL SETUP
-# ============================================================================
+# ===========================================================================
 
 # Load p10k configuration
 if (( HAS_PROMPT_TTY )) && [[ -f ~/.p10k.zsh ]]; then
@@ -401,9 +404,33 @@ fi
 export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 
 # opencode
-export PATH="$HOME/.opencode/bin:$PATH"
+export PATH=$HOME/.opencode/bin:$PATH
 
 unset HAS_PROMPT_TTY
 
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:$HOME/.cache/lm-studio/bin"
+# End of LM Studio CLI section
+
+# Mole shell completion
+if output="$(mole completion zsh 2>/dev/null)"; then eval "$output"; fi
+
+
 # Performance profiling output (uncomment to see results)
 # zprof
+
+. "$HOME/.local/bin/env"
+
+# Hermes Agent — ensure ~/.local/bin is on PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+# Added by Antigravity IDE
+export PATH="$HOME/.antigravity-ide/antigravity-ide/bin:$PATH"
+
+# >>> grok installer >>>
+export PATH="$HOME/.grok/bin:$PATH"
+fpath=(~/.grok/completions/zsh $fpath)
+autoload -Uz compinit && compinit -C
+# <<< grok installer <<<
