@@ -28,8 +28,6 @@ voice_transcription = true
 chronicle = false
 goals = true
 remote_connections = true
-code_mode = true
-code_mode_only = true
 mentions_v2 = true
 
 [agents]
