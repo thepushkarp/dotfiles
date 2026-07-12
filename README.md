@@ -15,7 +15,7 @@ Personal configuration files for shell, git, terminal, tmux, and Claude Code.
 | `gitmessage` | Git commit message template |
 | `ghostty_config` | Ghostty terminal configuration |
 | `.claude/` | Claude Code configuration |
-| `.codex/config.toml` | OpenAI Codex CLI configuration |
+| `.codex/` | OpenAI Codex CLI configuration and global agent instructions |
 | `.config/opencode/opencode.json` | OpenCode configuration |
 
 ## Installation
@@ -37,10 +37,13 @@ ln -sf ~/dotfiles/gitmessage ~/.gitmessage
 ln -sf ~/dotfiles/ghostty_config "~/Library/Application Support/com.mitchellh.ghostty/config"
 
 # For Claude Code
-ln -sf ~/dotfiles/.claude ~/.claude
+mkdir -p ~/.claude
+ln -sf ~/dotfiles/.claude/CLAUDE.md ~/.claude/CLAUDE.md
+ln -sf ~/dotfiles/.claude/settings.json ~/.claude/settings.json
 
 # For Codex CLI
 mkdir -p ~/.codex
+ln -sf ~/dotfiles/.codex/AGENTS.md ~/.codex/AGENTS.md
 ln -sf ~/dotfiles/.codex/config.toml ~/.codex/config.toml
 
 # For OpenCode
@@ -66,6 +69,15 @@ git config --global user.signingkey ~/.ssh/your_signing_key.pub
 | `.claude/settings.json` | Permissions, plugins, and settings |
 | `.claude/statusline-command.sh` | Custom statusline with git info |
 | `.claude/output-styles/` | Custom output style prompts |
+
+## Codex CLI Configuration
+
+### Files
+
+| File | Description |
+|------|-------------|
+| `.codex/AGENTS.md` | Global instructions for agents |
+| `.codex/config.toml` | Codex CLI settings, models, and MCP servers |
 
 ## License
 

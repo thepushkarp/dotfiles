@@ -1,8 +1,8 @@
-# Global Claude Code Instructions
+# Global Instructions for Agents
 
-Treat these as personal defaults. Prefer more-specific project instructions when they conflict,
-subject to managed policy and the user's current request. Follow the repository's established
-conventions, configured toolchain, and lockfiles.
+These are global defaults. Follow the user's current request and applicable project instructions.
+More-specific project instructions, repository conventions, configured tools, and lockfiles take
+precedence where they conflict.
 
 ## Working Style
 
